@@ -28,17 +28,25 @@ class List {
     }
 
     long deleteFirst() {
-        ListElement buf = head;
-        head = head.next;
-        return buf.data;
+        if (head == null)
+            return 0;
+        else {
+            ListElement buf = head;
+            head = head.next;
+            return buf.data;
+        }
     }
 
     long deleteLast() {
-        ListElement buf = tail;
-        int cc = calc();
-        //System.out.println(cc);
-        delElidx((cc - 1));
-        return buf.data;
+        if (head == null)
+            return 0;
+        else {
+            ListElement buf = tail;
+            int cc = calc();
+            //System.out.println(cc);
+            delElidx((cc - 1));
+            return buf.data;
+        }
     }
 
     void displayList() {

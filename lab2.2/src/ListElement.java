@@ -2,9 +2,9 @@
  * Created by alex on 30.10.16.
  */
 class ListElement {
-    long data; // data item
+    long data;
 
-    ListElement next; // next link in list
+    ListElement next;
 
     ListElement (long d) {
         data = d;
