@@ -58,7 +58,7 @@ class List {
         System.out.println("");
     }
 
-    void delElidx(int idx)          //удаление элемента
+    private void delElidx(int idx)          //удаление элемента
     {
         if(head == null)        //если список пуст -
             return;             //ничего не делаем

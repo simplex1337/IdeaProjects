@@ -80,19 +80,26 @@ public class Main {
         massB = new int[clmn * row];
         int dir = 0, m, i = (clmn - 1) / 2, n = (row - 1) / 2;
         double spur = 1;
+        int j;
+        Random rnd = new Random(System.currentTimeMillis());
+        j = rnd.nextInt(2);
+        System.out.println(j);
+
         for (int cnt = 0; cnt < clmn * row;) {
             for (m = 0; m < Math.floor(spur); m++) {
                 massB[cnt] = matrixA[i][n];
                 System.out.print(massB[cnt] + " ");
-                if (dir == 0 && i < clmn)
-                    i++;
-                if (dir == 1 && n < row)
-                    n++;
-                if (dir == 2 && i > -1)
-                    i--;
-                if (dir == 3 && n > -1)
-                    n--;
-                cnt++;
+                 {
+                    if (dir == 0 && i < clmn)
+                        n--;
+                    if (dir == 1 && n < row)
+                        i--;
+                    if (dir == 2 && i > -1)
+                        n++;
+                    if (dir == 3 && n > -1)
+                        i++;
+                    cnt++;
+                }
             }
             dir++;
             if (dir > 3)
@@ -114,17 +121,17 @@ public class Main {
             for (m = 0; m < spur; m++) {
                 massB[cnt] = matrixA[i][n];
                 System.out.print(massB[cnt] + " ");
-                if (dir == 0 && i < clmn)
-                    i++;
-                if (dir == 1 && n < row) {
+                if (dir == 0 && i < row)
                     n++;
+                if (dir == 1 && n < row) {
+                    i++;
                     if (m == 0 && spur != clmn - 1)
                         spur--;
                 }
-                if (dir == 2 && i > -1)
-                    i--;
-                if (dir == 3 && n > -1) {
+                if (dir == 2 && n > -1)
                     n--;
+                if (dir == 3 && i > -1) {
+                    i--;
                     if (m == 0)
                         spur--;
                 }

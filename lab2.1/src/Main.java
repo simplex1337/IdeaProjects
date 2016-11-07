@@ -18,6 +18,8 @@ public class Main {
         theStack.pop();
         theStack.pop();
 
+        System.out.println(theStack.isEmpty());
+
         theStack.displayStack();
 
         Queue q = new Queue();
@@ -33,6 +35,9 @@ public class Main {
         q.Dequeue();
 
         q.displayQueue();
+
+        System.out.println(q.isEmpty());
+
 
         System.out.println(q.Size());
     }

@@ -13,7 +13,7 @@ class Queue {
         return (list.deleteLast());
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return (list.isEmpty());
     }
 
