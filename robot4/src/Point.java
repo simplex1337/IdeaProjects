@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Point
@@ -27,8 +25,8 @@ public class Point
     }
 
     public void forward(int distance) {
-        if (getX() >= 500 || getY() >= 500)
-            setCourse(360 - getCourse());
+        if (getX() >= 500 || getY() >= 500 || getX() < 0 || getY() < 0)
+            setCourse(getCourse() + 180);
         x += distance * Math.cos(course / 180 * Math.PI);
         y += distance * Math.sin(course / 180 * Math.PI);
     }
