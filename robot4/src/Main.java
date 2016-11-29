@@ -8,11 +8,11 @@ public class Main
     public static void main(String[] args) {
         Random rnd = new Random();
         Point[] point = new Point[size];
+
         for (int i = 0; i < size; i++)
-//            point[i] = new Point(rnd.nextInt(100), rnd.nextInt(100));
+//            point[i] = new Point(rnd.nextInt(400), rnd.nextInt(400));
             point[i] = new Point();
         PointFrame frame = new PointFrame(point);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
