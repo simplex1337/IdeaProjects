@@ -64,11 +64,7 @@ public class Point
     public void chaos(int distance) {
         Random rnd = new Random();
 
-        x += distance * (rnd.nextDouble()-0.5);
-        y += distance * (rnd.nextDouble()-0.5);
+        x += distance * (rnd.nextDouble() - 0.5);
+        y += distance * (rnd.nextDouble() - 0.5);
     }
-
-
-
-
 }
