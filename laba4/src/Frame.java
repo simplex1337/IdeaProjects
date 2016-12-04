@@ -6,6 +6,6 @@ public class Frame extends JFrame
                  Circle circle) {
         setTitle("Laba 3");
         add(new PaintComponent(point, line, rectangle, triangle, ellipse, circle));
-        setBounds(400, 100, 700, 700);
+        setBounds(300, 100, 700, 700);
     }
 }

@@ -10,8 +10,10 @@ public class Line extends Point {
 
 
     public Line() {
-        p1 = new Point();
-        p2 = new Point();
+        Random rnd = new Random();
+        double i = rnd.nextInt(360);
+        p1 = new Point(i);
+        p2 = new Point(i);
     }
 
     public Line(double x1, double y1, double x2, double y2) {
@@ -19,7 +21,7 @@ public class Line extends Point {
         p2 = new Point(x2, y2);
     }
 
-    public Line(double lengh) {
+    public Line(double lenght) {
 
     }
 
@@ -62,8 +64,29 @@ public class Line extends Point {
         return Math.abs(getX1()- getX2());
     }
 
-    public void move() {
-        p1.forward(1);
-        p2.forward(1);
+    public double getLenght() {
+        return Math.sqrt(Math.pow(getHeight(), 2) + Math.pow(getWidth(), 2));
     }
+
+    public void move() {
+        Random rnd = new Random();
+        int i = rnd.nextInt(180);
+        if (getX1() >= 690 || getY1() >= 665 || getX1() < 0 || getY1() < 0 ||
+                getX2() >= 690 || getY2() >= 665 || getX2() < 0 || getY2() < 0 ) {
+            setCourse(getCourse() + i);
+//            p2.setCourse(p2.getCourse() + i);
+        }
+        p1.setX( p1.getX() + Math.cos(course / 180 * Math.PI));
+        p1.setY( p1.getY() + Math.sin(course / 180 * Math.PI));
+        p2.setX( p2.getX() + Math.cos(course / 180 * Math.PI));
+        p2.setY( p2.getY() + Math.sin(course / 180 * Math.PI));
+    }
+
+    public void vraw() {
+        p1.setX( p1.getX() + Math.cos(course / 180 * Math.PI));
+        p1.setY( p1.getY() + Math.cos(course / 180 * Math.PI));
+        p2.setX( p2.getX() + Math.cos(course / 180 * Math.PI));
+        p2.setY( p2.getY() + Math.cos(course / 180 * Math.PI));
+    }
+
 }

@@ -14,4 +14,8 @@ public class Circle extends Ellipse {
         width = rnd.nextInt(200);
     }
 
+    public void move1() {
+        p1.forward(1);
+    }
+
 }

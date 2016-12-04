@@ -9,5 +9,11 @@ public class Rectangle extends Line {
         l1 = new Line();
     }
 
+    @Override
+
+    public void move() {
+        l1.move();
+    }
+
 
 }

@@ -17,6 +17,14 @@ public class Point
         course = rnd.nextInt(360);
     }
 
+    public Point(double course) {
+        Random rnd = new Random();
+        x = rnd.nextInt(489);
+        y = rnd.nextInt(464);
+        color = new Color(rnd.nextFloat(),rnd.nextFloat(),rnd.nextFloat());
+        this.course = course;
+    }
+
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
@@ -28,7 +36,7 @@ public class Point
 
     public void forward(int distance) {
         Random rnd = new Random();
-        if (getX() >= 490 || getY() >= 465 || getX() < 0 || getY() < 0)
+        if (getX() >= 690 || getY() >= 665 || getX() < 0 || getY() < 0)
             setCourse(getCourse() + rnd.nextInt(180));
         x += distance * Math.cos(course / 180 * Math.PI);
         y += distance * Math.sin(course / 180 * Math.PI);
