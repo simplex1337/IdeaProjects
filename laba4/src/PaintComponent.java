@@ -55,7 +55,7 @@ public class PaintComponent extends JComponent implements Runnable
     public void run() {
         while (true) try {
 //            for (int i = 0; i < size; i++)
-                point.forward(1);
+                line.move();
             super.repaint();
             Thread.sleep(10);
         } catch (InterruptedException e) {

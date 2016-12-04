@@ -63,6 +63,7 @@ public class Line extends Point {
     }
 
     public void move() {
-
+        p1.forward(1);
+        p2.forward(1);
     }
 }
