@@ -28,7 +28,6 @@ public class PaintComponent extends JComponent implements Runnable
     @Override
     public void paint(Graphics g)
     {
-        Graphics2D g2 = (Graphics2D)  g;
         g.setColor(point.gettColor());
         g.drawRect((int) point.getX(), (int) point.getY(), 1, 1);
 
@@ -56,8 +55,9 @@ public class PaintComponent extends JComponent implements Runnable
         while (true) try {
 //            for (int i = 0; i < size; i++)
             line.move();
-            circle.mv();
+            circle.forward(1);
             point.forward(1);
+            triangle.move();
             super.repaint();
             Thread.sleep(10);
         } catch (InterruptedException e) {

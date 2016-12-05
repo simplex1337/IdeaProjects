@@ -3,7 +3,8 @@ import java.util.Random;
 /**
  * Created by alex on 03.12.16.
  */
-public class Circle extends Ellipse {
+public class Circle extends Ellipse  {
+
     private Point p1;
 
     private int width;
@@ -14,8 +15,12 @@ public class Circle extends Ellipse {
         width = rnd.nextInt(200);
     }
 
-    public void move1() {
-        p1.forward(1);
+    public void forward(int distance) {
+        Random rnd = new Random();
+        if (getX() >= 690  || getY() >= 665 - width || getX() < 0 || getY() < 0)
+            setCourse(getCourse() + rnd.nextInt(180));
+        setX(getX() + Math.cos(course / 180 * Math.PI));
+        setY(getY() + Math.sin(course / 180 * Math.PI));
     }
 
 }

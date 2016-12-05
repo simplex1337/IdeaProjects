@@ -7,6 +7,8 @@ public class Line extends Point {
 
     private Point p1;
     private Point p2;
+    private double i = 0;
+    private double angle = 6;
 
 
     public Line() {
@@ -83,10 +85,16 @@ public class Line extends Point {
     }
 
     public void vraw() {
-        p1.setX( p1.getX() + Math.cos(course / 180 * Math.PI));
-        p1.setY( p1.getY() + Math.cos(course / 180 * Math.PI));
-        p2.setX( p2.getX() + Math.cos(course / 180 * Math.PI));
-        p2.setY( p2.getY() + Math.cos(course / 180 * Math.PI));
+        if (i * angle > 360)
+            i = 0;
+        else
+            i += 0.009;
+        p1.setX( p1.getX() + 100 * Math.cos(i * angle));
+        p1.setY( p1.getY() + 100 * Math.sin(i * angle));
+//        p2.setX( p2.getX() + 20 * Math.cos(i * angle));
+//        p2.setY( p2.getY() + 20 * Math.sin(i * angle));
+
+        this.setLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
 }

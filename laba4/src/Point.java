@@ -81,4 +81,11 @@ public class Point
         x++;
         y++;
     }
+
+    public void movc() {
+        for (int i = 0; i < 360; i++) {
+            forward(1);
+            setCourse(getCourse() + 360 / 360);
+        }
+    }
 }
