@@ -1,18 +1,18 @@
 /**
  * Created by alex on 03.12.16.
  */
-public class Diamond {
+public class Diamond extends Rectangle {
 
-    private Line l1;
-    private Line l2;
-    private Line l3;
-    private Line l4;
+    private Point p1;
+    private Point p2;
+    private Point p3;
+    private Point p4;
 
     public Diamond() {
-        l1 = new Line();
-        l2 = new Line();
-        l3 = new Line();
-        l4 = new Line();
+        p1 = new Point();
+        p2 = new Point();
+        p3 = new Point(p1.getX(), p2.getY());
+        p4 = new Point(p2.getX(), p1.getY());
     }
 
 }

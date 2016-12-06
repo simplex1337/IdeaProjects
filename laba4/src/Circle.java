@@ -17,7 +17,7 @@ public class Circle extends Ellipse  {
 
     public void forward(int distance) {
         Random rnd = new Random();
-        if (getX() >= 690 - width * 2 || getY() >= 665 - width || getX() < 0 || getY() < 0)
+        if (getX() >= 690 - width / 2 || getY() >= 665 - width * 2 || getX() < 0 || getY() < 0)
             setCourse(getCourse() + rnd.nextInt(180));
         setX(getX() + Math.cos(course / 180 * Math.PI));
         setY(getY() + Math.sin(course / 180 * Math.PI));

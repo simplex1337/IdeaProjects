@@ -60,6 +60,7 @@ public class PaintComponent extends JComponent implements Runnable
             circle.forward(1);
             point.forward(1);
             triangle.move();
+            rectangle.move();
             super.repaint();
             Thread.sleep(10);
         } catch (InterruptedException e) {

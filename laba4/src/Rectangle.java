@@ -52,6 +52,21 @@ public class Rectangle extends Point {
     }
 
     public void move() {
+        Random rnd = new Random();
+        int i = rnd.nextInt(180);
+        if (getX1() >= 690 || getY1() >= 665 || getX1() < 0 || getY1() < 0 ||
+                getX2() >= 690 || getY2() >= 665 || getX2() < 0 || getY2() < 0 ) {
+            setCourse(getCourse() + i);
+//            p2.setCourse(p2.getCourse() + i);
+        }
+        p1.setX( p1.getX() + Math.cos(course / 180 * Math.PI));
+        p1.setY( p1.getY() + Math.sin(course / 180 * Math.PI));
+        p2.setX( p2.getX() + Math.cos(course / 180 * Math.PI));
+        p2.setY( p2.getY() + Math.sin(course / 180 * Math.PI));
+        p3.setX( p3.getX() + Math.cos(course / 180 * Math.PI));
+        p3.setY( p3.getY() + Math.sin(course / 180 * Math.PI));
+        p4.setX( p4.getX() + Math.cos(course / 180 * Math.PI));
+        p4.setY( p4.getY() + Math.sin(course / 180 * Math.PI));
     }
 
 
