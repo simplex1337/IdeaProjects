@@ -35,8 +35,10 @@ public class PaintComponent extends JComponent implements Runnable
         g.drawLine((int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2());
 
         g.setColor(rectangle.gettColor());
-        g.drawRect((int) rectangle.getX1(), (int) rectangle.getY1(), (int) rectangle.getWidth(),
-                (int) rectangle.getHeight());
+        g.drawLine((int) rectangle.getX1(), (int) rectangle.getY1(), (int) rectangle.getX4(), (int) rectangle.getY4());
+        g.drawLine((int) rectangle.getX1(), (int) rectangle.getY1(), (int) rectangle.getX3(), (int) rectangle.getY3());
+        g.drawLine((int) rectangle.getX2(), (int) rectangle.getY2(), (int) rectangle.getX3(), (int) rectangle.getY3());
+        g.drawLine((int) rectangle.getX2(), (int) rectangle.getY2(), (int) rectangle.getX4(), (int) rectangle.getY4());
 
         g.setColor(triangle.gettColor());
         g.drawLine((int) triangle.getX1(), (int) triangle.getY1(), (int) triangle.getX2(), (int) triangle.getY2());

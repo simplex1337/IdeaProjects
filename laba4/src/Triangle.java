@@ -3,7 +3,7 @@ import java.util.Random;
 /**
  * Created by alex on 03.12.16.
  */
-public class Triangle extends Point{
+public class Triangle extends Point {
 
     Point p1;
     Point p2;
