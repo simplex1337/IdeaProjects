@@ -35,7 +35,7 @@ public class Triangle extends Point{
     }
 
     public double getY3() {
-        return p3.getX();
+        return p3.getY();
     }
 
     public double getY1() {
@@ -49,9 +49,9 @@ public class Triangle extends Point{
     public void move() {
         Random rnd = new Random();
         int i = rnd.nextInt(180);
-        if (getX1() >= 690 || getY1() >= 665 || getX1() < 0 || getY1() < 0 ||
-                getX2() >= 690 || getY2() >= 665 || getX2() < 0 || getY2() < 0 ||
-                getX3() >= 690 || getY3() >= 665 || getX3() < 0 || getY3() < 0) {
+        if (getX1() >= 689 || getY1() >= 664 || getX1() < 0 || getY1() < 0 ||
+                getX2() >= 689 || getY2() >= 664 || getX2() < 0 || getY2() < 0 ||
+                getX3() >= 689 || getY3() >= 664 || getX3() < 0 || getY3() < 0) {
             setCourse(getCourse() + i);
 //            p2.setCourse(p2.getCourse() + i);
         }
