@@ -14,38 +14,11 @@ public class Pie extends Slice {
 
 //    private Slice[] slices = new Slice[size];
 
-    /*public Pie() {
-        Random rnd = new Random();
-        x = rnd.nextInt(40);
-        y = rnd.nextInt(40);
-        for (int i = 0; i < size; i++) {
-            slices[i] = new Slice();
-            total += slices[i].getValue();
-            slices[i].setStartAngle(curValue * 360 / total);
-            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
-            curValue += slices[i].getValue();
-        }
-    }
-
-    public Pie(int x, int y) {
-        this.x = x;
-        this.y = y;
-        for (int i = 0; i < size; i++) {
-            slices[i] = new Slice();
-            total += slices[i].getValue();
-            slices[i].setStartAngle(curValue * 360 / total);
-            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
-            curValue += slices[i].getValue();
-        }
-    }*/
-
-
-
     public Pie(int x, int y) {
         this.x = x;
         this.y = y;
 //        slices.add(new Slice(50));
-        setTotal(getValue());
+//        setTotal(getValue());
     }
 
     public double getTotal() {
@@ -80,20 +53,33 @@ public class Pie extends Slice {
         return y;
     }
 
+
     public void addSlice() {
+        setAngles();
         Random rnd = new Random();
         slices.add(new Slice(rnd.nextInt(50) + 50));
         setTotal(getTotal() + slices.get(getSize() - 1).getValue());
-        setAngles(getSize());
+        setAngles();
     }
 
-    public void setAngles(int j) {
-//        setTotal(getTotal() + slices.get(getSize() - 1).getValue());
-//        slices.get(getSize() - 1).setStartAngle((slices.get(getSize() - 2).getValue()
-//                + slices.get(getSize() - 1).getValue()) * 360 / getTotal());
-//        slices.get(getSize() - 1).setArcAngle((int) (slices.get(getSize() - 1).getValue() * 360 / getTotal()));
-        for (int i = 0; i < j; i++) {
-//            setTotal(slices.get(i).getValue() + getTotal());
+    public void removeSlice() {
+        setTotal(getTotal() - slices.get(getSize() - 1).getValue());
+
+        if(!slices.isEmpty())
+            slices.remove(getSize() - 1);
+        setAngles();
+    }
+
+    public void clearPie() {
+        setTotal(0);
+        slices.clear();
+        setAngles();
+    }
+
+    public void setAngles() {
+
+        for (int i = 0; i < getSize(); i++) {
+//            setTotal(getTotal() + slices.get(getSize() - 1).getValue());
             slices.get(i).setStartAngle(curValue * 360 / getTotal());
             slices.get(i).setArcAngle((slices.get(i).getValue() * 360 / getTotal()));
             curValue += slices.get(i).getValue();
@@ -107,5 +93,30 @@ public class Pie extends Slice {
         slices.get(2).setArcAngle(120);*/
 
     }
+
+        /*public Pie() {
+        Random rnd = new Random();
+        x = rnd.nextInt(40);
+        y = rnd.nextInt(40);
+        for (int i = 0; i < size; i++) {
+            slices[i] = new Slice();
+            total += slices[i].getValue();
+            slices[i].setStartAngle(curValue * 360 / total);
+            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
+            curValue += slices[i].getValue();
+        }
+    }
+
+    public Pie(int x, int y) {
+        this.x = x;
+        this.y = y;
+        for (int i = 0; i < size; i++) {
+            slices[i] = new Slice();
+            total += slices[i].getValue();
+            slices[i].setStartAngle(curValue * 360 / total);
+            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
+            curValue += slices[i].getValue();
+        }
+    }*/
 
 }
