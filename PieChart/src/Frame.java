@@ -19,7 +19,7 @@ public class Frame extends JFrame {
         Button btn1 = new Button("REMOVE");
         Button btn2 = new Button("CLEAR");
 
-        JTable tab = new JTable(new MyTableModel());
+//        JTable tab = new JTable(new MyTableModel());
 
 //        tab.setPreferredScrollableViewportSize(new Dimension(100,100));
 
@@ -52,12 +52,12 @@ public class Frame extends JFrame {
             }
         });
 
-        tab.setBounds(400, 400, 200, 200);
+//        tab.setBounds(400, 400, 200, 200);
         btn.setBounds(20, 450, 50, 50);
         btn1.setBounds(100, 450, 50, 50);
         btn2.setBounds(170, 450, 50, 50);
 
-        add(tab);
+//        add(tab);
         add(btn);
         add(btn1);
         add(btn2);
