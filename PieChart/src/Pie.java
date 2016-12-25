@@ -25,6 +25,10 @@ public class Pie extends Slice {
         return total;
     }
 
+    public double getValue(int i) {
+        return slices.get(i).getValue();
+    }
+
     public void setTotal(double total) {
         this.total = total;
     }
@@ -55,7 +59,7 @@ public class Pie extends Slice {
 
 
     public void addSlice() {
-        setAngles();
+//        setAngles();
         Random rnd = new Random();
         slices.add(new Slice(rnd.nextInt(50) + 50));
         setTotal(getTotal() + slices.get(getSize() - 1).getValue());
@@ -63,10 +67,10 @@ public class Pie extends Slice {
     }
 
     public void removeSlice() {
-        setTotal(getTotal() - slices.get(getSize() - 1).getValue());
-
-        if(!slices.isEmpty())
+        if(!slices.isEmpty()) {
+            setTotal(getTotal() - slices.get(getSize() - 1).getValue());
             slices.remove(getSize() - 1);
+        }
         setAngles();
     }
 
