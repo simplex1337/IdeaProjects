@@ -41,4 +41,8 @@ public class Slice extends Circle {
         this.arcAngle = arcAngle;
     }
 
+    public void setValue(double value) {
+        this.value = value;
+    }
+
 }

@@ -29,5 +29,9 @@ abstract public class Circle {
         return color;
     }
 
+    public void setColor(int i, int i2, int i3) {
+        color = new Color(i, i2, i3);
+    }
+
 
 }

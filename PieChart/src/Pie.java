@@ -12,8 +12,6 @@ public class Pie extends Slice {
     private double curValue;
     private ArrayList<Slice> slices = new ArrayList<Slice>();
 
-//    private Slice[] slices = new Slice[size];
-
     public Pie(int x, int y) {
         this.x = x;
         this.y = y;
@@ -59,7 +57,6 @@ public class Pie extends Slice {
 
 
     public void addSlice() {
-//        setAngles();
         Random rnd = new Random();
         slices.add(new Slice(rnd.nextInt(50) + 50));
         setTotal(getTotal() + slices.get(getSize() - 1).getValue());
@@ -88,39 +85,16 @@ public class Pie extends Slice {
             slices.get(i).setArcAngle((slices.get(i).getValue() * 360 / getTotal()));
             curValue += slices.get(i).getValue();
         }
-
-        /*slices.get(0).setStartAngle(0);
-        slices.get(0).setArcAngle(120);
-        slices.get(1).setStartAngle(120);
-        slices.get(1).setArcAngle(240);
-        slices.get(2).setStartAngle(240);
-        slices.get(2).setArcAngle(120);*/
-
     }
 
-        /*public Pie() {
-        Random rnd = new Random();
-        x = rnd.nextInt(40);
-        y = rnd.nextInt(40);
-        for (int i = 0; i < size; i++) {
-            slices[i] = new Slice();
-            total += slices[i].getValue();
-            slices[i].setStartAngle(curValue * 360 / total);
-            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
-            curValue += slices[i].getValue();
-        }
+    public void setValue(double value, int i) {
+        setTotal(getTotal() - slices.get(i).getValue() + value);
+        slices.get(i).setValue(value);
+        setAngles();
     }
 
-    public Pie(int x, int y) {
-        this.x = x;
-        this.y = y;
-        for (int i = 0; i < size; i++) {
-            slices[i] = new Slice();
-            total += slices[i].getValue();
-            slices[i].setStartAngle(curValue * 360 / total);
-            slices[i].setArcAngle((int) (slices[i].getValue() * 360 / total));
-            curValue += slices[i].getValue();
-        }
-    }*/
+    public void setColor(int i, int i1, int i2, int i3) {
+        slices.get(i3).setColor(i, i2, i3);
+    }
 
 }
