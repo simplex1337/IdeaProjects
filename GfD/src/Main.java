@@ -12,8 +12,7 @@ public class Main {
 
 
         Frame frame = new Frame(player1, player2);
-
-        System.out.print(frame.getBounds());
+        
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
