@@ -7,9 +7,16 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
 
-        Frame frame = new Frame();
+        Player1 player1 = new Player1();
+        Player2 player2 = new Player2();
+
+
+        Frame frame = new Frame(player1, player2);
+
+        System.out.print(frame.getBounds());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
     }
 }
