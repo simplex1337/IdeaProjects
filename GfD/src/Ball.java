@@ -19,7 +19,7 @@ public class Ball {
         Random rnd = new Random(System.currentTimeMillis());
         setVecx(rnd.nextInt(11) - 5);
         setVecy(rnd.nextInt(11) - 5);
-        setR(5);
+        setR(10);
     }
 
     public int getR() { return r; }

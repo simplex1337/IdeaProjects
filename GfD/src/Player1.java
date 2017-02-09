@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Created by alex on 06.02.17.
  */
@@ -9,9 +11,12 @@ public class Player1 {
     private int h;
     private int w;
 
+    private Rectangle bounds;
 
-    public Player1() {
-        setX(0);
+
+    public Player1(Rectangle bounds) {
+        setBounds(bounds);
+        setX(bounds.getMinX());
         setY(100);
         setH(100);
         setW(20);
@@ -29,6 +34,9 @@ public class Player1 {
         return h;
     }
 
+    private void setBounds(Rectangle bounds) { this.bounds = bounds; }
+
+
     public int getW() {
         return w;
     }
@@ -44,7 +52,18 @@ public class Player1 {
     public void setH(int h) {
         this.h = h;
     }
+
     public void setW(int w) {
         this.w = w;
+    }
+
+    public void moveup() {
+        if (getY()  > bounds.getMinY())
+            setY(getY() - 1);
+    }
+
+    public void movedown() {
+        if (getY()  < bounds.getMaxY())
+            setY(getY() + 1);
     }
 }
