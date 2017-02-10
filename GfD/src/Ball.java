@@ -44,12 +44,17 @@ public class Ball {
 
     private void setVecy(int vecy) { this.vecy = vecy; }
 
-    public void move() {
-        if ((getX() + getR()) > bounds.getMaxX() || (getX() - getR()) < bounds.getMinX())
+    public boolean move(Player1 pl1, Player2 pl2) {
+        if (this.getX() > bounds.getMaxX() || this.getX() < bounds.getMinX())
+            return true;
+        if ((pl1.getX() + pl1.getW()) == this.getX() || pl2.getX() == this.getX())
             setVecx(getVecx() * -1);
-        if ((getY() + getR()) > bounds.getMaxY() || (getY() - getR()) < bounds.getMinY())
+        if ((this.getY() + this.getR()) > bounds.getMaxY() || (this.getY() - this.getR()) < bounds.getMinY()
+                || (pl1.getY() + pl1.getH()) == (this.getY() + this.getR()) || pl1.getY() == (this.getY() + this.getR())
+                ||  (pl2.getY() + pl2.getH()) == (this.getY() + this.getR()) || pl2.getY() == (this.getY() + this.getR()))
             setVecy(getVecy() * -1);
         setX(getX() + getVecx());
         setY(getY() + getVecy());
+        return false;
     }
 }
