@@ -16,7 +16,7 @@ public class Player2 {
 
     public Player2(Rectangle bounds) {
         setBounds(bounds);
-        setX(bounds.getMaxX() - 18);
+        setX(bounds.getMaxX() - 19);
         setY(100);
         setH(100);
         setW(20);
@@ -59,11 +59,11 @@ public class Player2 {
 
     public void moveup() {
         if (getY()  > bounds.getMinY())
-            setY(getY() - 1);
+            setY(getY() - 5);
     }
 
     public void movedown() {
         if (getY()  < bounds.getMaxY() - getH())
-            setY(getY() + 1);
+            setY(getY() + 5);
     }
 }

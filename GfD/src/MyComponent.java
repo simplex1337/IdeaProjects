@@ -35,11 +35,10 @@ public class MyComponent extends JComponent implements Runnable {
 
         g.fillOval((int) ball.getX(), (int) ball.getY(), ball.getR(), ball.getR());
 
-
-
         g.fillRect((int) player1.getX(), (int) player1.getY(), player1.getW(), player1.getH());
 
         g.fillRect((int) player2.getX(), (int) player2.getY(), player2.getW(), player2.getH());
+
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -49,8 +48,8 @@ public class MyComponent extends JComponent implements Runnable {
 
 
             ball.move();
-            player1.moveup();
-            player2.movedown();
+//            player1.moveup();
+//            player2.movedown();
 
             super.repaint();
             Thread.sleep(10);

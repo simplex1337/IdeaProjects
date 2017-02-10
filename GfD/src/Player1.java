@@ -59,11 +59,11 @@ public class Player1 {
 
     public void moveup() {
         if (getY()  > bounds.getMinY())
-            setY(getY() - 1);
+            setY(getY() - 5);
     }
 
     public void movedown() {
-        if (getY()  < bounds.getMaxY())
-            setY(getY() + 1);
+        if (getY()  < bounds.getMaxY() - getH())
+            setY(getY() + 5);
     }
 }
