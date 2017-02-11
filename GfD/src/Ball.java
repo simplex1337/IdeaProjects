@@ -17,8 +17,8 @@ public class Ball {
         setX(bounds.getMaxX() / 2);
         setY(bounds.getMaxY() / 2);
         Random rnd = new Random(System.currentTimeMillis());
-        setVecx(rnd.nextInt(11) - 5);
-        setVecy(rnd.nextInt(11) - 5);
+        setVecx((rnd.nextInt(3) - 2) * 3);
+        setVecy((rnd.nextInt(3) - 2) * 3);
         setR(10);
     }
 
@@ -40,18 +40,27 @@ public class Ball {
 
     private void setY(double y) { this.y = y; }
 
-    private void setVecx(int vecx) { this.vecx = vecx; }
+    private void setVecx(int vecx) {
+        if (vecx != 0)
+            this.vecx = vecx;
+        else
+            this.vecx = 1;
+    }
 
-    private void setVecy(int vecy) { this.vecy = vecy; }
+    private void setVecy(int vecy) {
+        if (vecy != 0)
+            this.vecy = vecy;
+        else
+            this.vecy = 1;
+    }
 
     public boolean move(Player1 pl1, Player2 pl2) {
-        if (this.getX() > bounds.getMaxX() || this.getX() < bounds.getMinX())
+        if (this.getX() + this.getR() > bounds.getMaxX() || this.getX() < bounds.getMinX())
             return true;
-        if ((pl1.getX() + pl1.getW()) == this.getX() || pl2.getX() == this.getX())
+        if (this.getX() + this.getR() == pl2.getX() && (this.getY() >= pl2.getY() || this.getY() <= pl2.getY() + pl2.getH()) ||
+                this.getX() == pl2.getX() && (this.getY() >= pl1.getY() || this.getY() <= pl1.getY() + pl1.getH()))
             setVecx(getVecx() * -1);
-        if ((this.getY() + this.getR()) > bounds.getMaxY() || (this.getY() - this.getR()) < bounds.getMinY()
-                || (pl1.getY() + pl1.getH()) == (this.getY() + this.getR()) || pl1.getY() == (this.getY() + this.getR())
-                ||  (pl2.getY() + pl2.getH()) == (this.getY() + this.getR()) || pl2.getY() == (this.getY() + this.getR()))
+        if ((this.getY() + this.getR()) > bounds.getMaxY() || (this.getY() - this.getR()) < bounds.getMinY())
             setVecy(getVecy() * -1);
         setX(getX() + getVecx());
         setY(getY() + getVecy());
