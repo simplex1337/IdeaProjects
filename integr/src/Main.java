@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,6 +14,10 @@ public class Main {
     public static double[] x;
     public static double[] y;
     public static double[] h;
+
+    public static double func(double x) {
+        return x * x;
+    }
 
     public static void main(String[] args) throws IOException {
         File file = new File("in").getAbsoluteFile();
@@ -45,7 +50,29 @@ public class Main {
         y = new double[lines2.length];
         for(int i = 0; i < lines1.length; i++) {
             x[i] = Double.parseDouble(lines1[i]);
-            y[i] = Double.parseDouble(lines2[i]);
+            y[i] = func(x[i]);
+        }
+        String s = new String();
+        for(int i = 0; i < y.length; i++)
+            s+=y[i] + " ";
+//        System.out.println(s);
+
+        lines.set(1, s);
+        write(file, lines);
+
+    }
+
+    public static void write(File file, List<String> lines) {
+        try {
+            PrintWriter out = new PrintWriter(file.getAbsoluteFile());
+            try {
+                for (int i = 0; i < lines.size(); i++)
+                    out.println(lines.get(i));
+            } finally {
+                out.close();
+            }
+        } catch(IOException e) {
+            System.out.println("Can't open file");
         }
     }
 
