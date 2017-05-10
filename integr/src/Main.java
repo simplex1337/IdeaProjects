@@ -1,82 +1,40 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
 /**
  * Created by alex on 09.05.17.
  */
 public class Main {
 
-    public static double[] x;
-    public static double[] y;
-    public static double[] h;
+    public static double a = 0,
+                         b = 4,
+                         h = 0.5,
+                         e = 0.01;
 
     public static double func(double x) {
         return x * x;
     }
 
-    public static void main(String[] args) throws IOException {
-        File file = new File("in").getAbsoluteFile();
-        loadFile(file);
-        if (x.length != y.length || x.length > 9) {
-            System.out.println("Некорректные данные");
-            System.exit(0);
-        }
-        initH();
-        double ans = 0;
-
-        for(int i = 0; i < x.length; i++) {
-            ans += y[i] * h[i];
-        }
-        System.out.printf("%.3f", ans* (x[x.length - 1] - x[0]));
+    public static void main(String[] args) {
+        while(simp(h) - simp(h / 2) > 3 * e)
+            h *= 0.5;
+//        System.out.printf("%.3f\n", simp(h));
+        System.out.printf("%.3f", simp(h / 2));
     }
 
-    public static void loadFile(File file) throws IOException {
-        List<String> lines = null;
-        String[] lines1;
-        String[] lines2;
-        try {
-            lines = Files.readAllLines(Paths.get(String.valueOf(file)), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            System.out.println("Can't open file");
-        }
-        lines1 = lines.get(0).split(" ");
-        lines2 = lines.get(1).split(" ");
-        x = new double[lines1.length];
-        y = new double[lines2.length];
-        for(int i = 0; i < lines1.length; i++) {
-            x[i] = Double.parseDouble(lines1[i]);
+    public static double simp(double h) {
+        double x[] = new double[(int) ((b - a) / h) + 1];
+        double y[] = new double[(int) ((b - a) / h) + 1];
+        double tmp = a;
+        for(int i = 0; tmp <= b; tmp += h, i++) {
+            x[i] = tmp;
             y[i] = func(x[i]);
         }
-        String s = new String();
-        for(int i = 0; i < y.length; i++)
-            s+=y[i] + " ";
-//        System.out.println(s);
-
-        lines.set(1, s);
-        write(file, lines);
+        double ans = 0;
+        for(int i = 1; i < y.length - 1; i++)
+            ans += y[i];
+        return h * (0.5 * (y[0] + y[y.length - 1]) + ans);
 
     }
 
-    public static void write(File file, List<String> lines) {
-        try {
-            PrintWriter out = new PrintWriter(file.getAbsoluteFile());
-            try {
-                for (int i = 0; i < lines.size(); i++)
-                    out.println(lines.get(i));
-            } finally {
-                out.close();
-            }
-        } catch(IOException e) {
-            System.out.println("Can't open file");
-        }
-    }
-
-    public static void initH() {
+    /*public static void initH() {
         switch (x.length - 1) {
             case 1: h = new double[]{0.5, 0.5};
                 break;
@@ -99,5 +57,5 @@ public class Main {
                     -928.0 / 28350.0, 10496.0 / 28350.0, -928.0 / 28350.0, 5888.0 / 28350.0, 989.0 / 28350.0};
                 break;
         }
-    }
+    }*/
 }
