@@ -5,8 +5,8 @@ public class Main {
 
     public static double a = 0,
                          b = 1,
-                         h = 0.1,
-                         e = 0.1,
+                         h = 0.1 * (b - a),
+                         e = 0.01,
                          y0 = 1;
 
     public static double func(double x, double y) {
@@ -16,9 +16,9 @@ public class Main {
     public static void main(String[] args) {
 //        print(E(h, y0, 1), E(h, y0, 0));
         Eiler(h);
-        System.out.println();
+        System.out.println("\n");
         Runge2P(h);
-        System.out.println();
+        System.out.println("\n");
         Runge4(h);
 //        print(RK2V(h, y0, 1), RK2V(h, y0, 0));
 //        print(RK2P(h, y0, 1), RK2P(h, y0, 0));
@@ -37,13 +37,13 @@ public class Main {
                     max = Math.abs(y1[i] - y2[i * 2]);
                 }
             }
-            if (max > 3 * e) {
+            if (max > e) {
                 hh *= 0.5;
                 step++;
             }
             else {
                 System.out.println("Колличество шагов в методе Эйлера: " + step);
-                print(E(hh, y0, 1), E(hh, y0, 0));
+                print(E(hh * 0.5, y0, 1), E(hh * 0.5, y0, 0));
                 return;
             }
         }
@@ -61,13 +61,13 @@ public class Main {
                     max = Math.abs(y1[i] - y2[i * 2]);
                 }
             }
-            if (max > 3 * e) {
+            if (max > e) {
                 hh *= 0.5;
                 step++;
             }
             else {
                 System.out.println("Колличество шагов в методе Р. - К. 2-го порядка с усреднением по времени: " + step);
-                print(RK2V(hh, y0, 1), RK2V(hh, y0, 0));
+                print(RK2V(hh * 0.5, y0, 1), RK2V(hh * 0.5, y0, 0));
                 return;
             }
         }
@@ -85,14 +85,14 @@ public class Main {
                     max = Math.abs(y1[i] - y2[i * 2]);
                 }
             }
-            if (max > 3 * e) {
+            if (max > e) {
                 hh *= 0.5;
                 step++;
             }
             else {
                 System.out.println("Колличество шагов в методе Р. - К. 2-го порядка с усреднением по производной: "
                         + step);
-                print(RK2P(hh, y0, 1), RK2P(hh, y0, 0));
+                print(RK2P(hh * 0.5, y0, 1), RK2P(hh * 0.5, y0, 0));
                 return;
             }
         }
@@ -110,13 +110,13 @@ public class Main {
                     max = Math.abs(y1[i] - y2[i * 2]);
                 }
             }
-            if (max > 15 * e) {
+            if (max > e) {
                 hh *= 0.5;
                 step++;
             }
             else {
                 System.out.println("Колличество шагов в методе Р. - К. 4-го порядка: " + step);
-                print(RK4(hh, y0, 1), RK4(hh, y0, 0));
+                print(RK4(hh * 0.5, y0, 1), RK4(hh * 0.5, y0, 0));
                 return;
             }
         }
