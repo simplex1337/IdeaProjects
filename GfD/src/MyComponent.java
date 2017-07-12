@@ -46,6 +46,8 @@ public class MyComponent extends JComponent implements Runnable {
     public void run() {
         while (true) try {
             ball.move(player1, player2);
+            player1.move();
+            player2.move();
 
             super.repaint();
             Thread.sleep(10);

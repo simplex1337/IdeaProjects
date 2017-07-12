@@ -13,6 +13,9 @@ public class Player1 {
 
     private Rectangle bounds;
 
+    private boolean up;
+    private boolean down;
+
 
     public Player1(Rectangle bounds) {
         setBounds(bounds);
@@ -57,13 +60,41 @@ public class Player1 {
         this.w = w;
     }
 
-    public void moveup() {
-        if (getY()  > bounds.getMinY())
+    private void moveup() {
+        if (getY() > bounds.getMinY())
             setY(getY() - 5);
     }
 
-    public void movedown() {
-        if (getY()  < bounds.getMaxY() - getH())
+    private void movedown() {
+        if (getY() < bounds.getMaxY() - getH())
             setY(getY() + 5);
     }
+
+    public void move() {
+        if (up)
+            this.moveup();
+        if (down)
+            this.movedown();
+    }
+
+    public void toggleUp(boolean flg) {
+        if (flg) {
+            if (down) {
+                down = false;
+            }
+            up = true;
+        } else
+            up = false;
+    }
+
+    public void toggleDown(boolean flg) {
+        if (flg) {
+            if (up) {
+                up = false;
+            }
+            down = true;
+        } else
+            down = false;
+    }
 }
+
