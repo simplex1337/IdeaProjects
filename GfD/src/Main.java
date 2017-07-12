@@ -18,7 +18,6 @@ public class Main {
 
         Frame frame = new Frame(player1, player2, rectangle, ball);
 
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);

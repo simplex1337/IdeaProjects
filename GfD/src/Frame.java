@@ -1,10 +1,7 @@
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by alex on 06.02.17.
@@ -18,7 +15,6 @@ public class Frame extends JFrame {
         this.addKeyListener(new KeyAdapter() {
 
             @Override
-
             public void keyPressed(KeyEvent e) {
                 toggle(e, true);
             }

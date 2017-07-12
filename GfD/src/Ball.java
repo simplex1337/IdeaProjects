@@ -17,7 +17,10 @@ public class Ball {
         setX(bounds.getMaxX() / 2);
         setY(bounds.getMaxY() / 2);
         Random rnd = new Random(System.currentTimeMillis());
-        setVecx((rnd.nextInt(3) - 2) * 3);
+        if (rnd.nextBoolean())
+            setVecx(3);
+        else
+            setVecx(-3);
         setVecy((rnd.nextInt(3) - 2) * 3);
         setR(10);
     }
