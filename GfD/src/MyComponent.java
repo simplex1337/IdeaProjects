@@ -45,11 +45,7 @@ public class MyComponent extends JComponent implements Runnable {
     @Override
     public void run() {
         while (true) try {
-
-
             ball.move(player1, player2);
-//            player1.moveup();
-//            player2.movedown();
 
             super.repaint();
             Thread.sleep(10);

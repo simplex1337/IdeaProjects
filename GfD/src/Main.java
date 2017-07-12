@@ -16,9 +16,9 @@ public class Main {
 
         Ball ball = new Ball(rectangle);
 
-
         Frame frame = new Frame(player1, player2, rectangle, ball);
 
+        KeyHandler keyHandler = new KeyHandler(frame, player1, player2);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
