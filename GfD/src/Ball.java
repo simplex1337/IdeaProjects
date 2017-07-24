@@ -57,9 +57,14 @@ public class Ball {
     public boolean move(Player1 pl1, Player2 pl2) {
         if (this.getX() + this.getR() > bounds.getMaxX() || this.getX() < bounds.getMinX())
             return true;
-        if (this.getX() + this.getR() == pl2.getX() && (this.getY() >= pl2.getY() || this.getY() <= pl2.getY() + pl2.getH()) ||
-                this.getX() == pl2.getX() && (this.getY() >= pl1.getY() || this.getY() <= pl1.getY() + pl1.getH()))
+        if ((this.getX() + this.getR() - 10 < bounds.getMinX() + pl1.getW()
+                && pl1.getY() + pl1.getH() > this.getY() + this.getR()
+                && pl1.getY() < this.getY() + this.getR()) ||
+                this.getX() + this.getR() > bounds.getMaxX() - pl2.getW()
+                && pl2.getY() + pl2.getH() > this.getY() + this.getR()
+                && pl2.getY() < this.getY() + this.getR()) {
             setVecx(getVecx() * -1);
+        }
         if ((this.getY() + this.getR()) > bounds.getMaxY() || (this.getY() - this.getR()) < bounds.getMinY())
             setVecy(getVecy() * -1);
         setX(getX() + getVecx());
