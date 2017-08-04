@@ -4,14 +4,14 @@ import java.awt.*;
 /**
  * Created by alex on 06.02.17.
  */
-public class MyComponent extends JComponent implements Runnable {
+public class GameRender extends JComponent implements Runnable {
 
     private Player1 player1;
     private Player2 player2;
     private Rectangle rectangle;
     private Ball ball;
 
-    public MyComponent(Player1 player1, Player2 player2, Rectangle rectangle, Ball ball) {
+    public GameRender(Player1 player1, Player2 player2, Rectangle rectangle, Ball ball) {
 
         this.player1 = player1;
         this.player2 = player2;
@@ -25,7 +25,6 @@ public class MyComponent extends JComponent implements Runnable {
     @Override
     public void paint(Graphics g) {
         drawSes(g, getBounds(), player1, player2, ball);
-
     }
 
     void drawSes(Graphics g, Rectangle area, Player1 player1, Player2 player2, Ball ball) {
