@@ -54,14 +54,10 @@ public class Frame extends JFrame {
         System.out.println("Setting keybinds");
         binds = new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                toggle(e, true);
-            }
+            public void keyPressed(KeyEvent e) { toggle(e, true); }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-                toggle(e, false);
-            }
+            public void keyReleased(KeyEvent e) { toggle(e, false); }
 
             @Override
             public void keyTyped(KeyEvent e) { }
@@ -78,15 +74,18 @@ public class Frame extends JFrame {
 
         this.remove(label);
         this.getContentPane().setBackground(Color.WHITE);
+        setVisible(false);
     }
 
     public void menu() {
         render.setStatus(MENU);
-        add(render);
-        this.repaint();
         JLabel start = new JLabel("Start");
+        start.setHorizontalAlignment(JLabel.CENTER);
+        start.setFont(new Font("Verdana", Font.PLAIN, 20));
         JLabel how_to = new JLabel("How to");
         JLabel exit = new JLabel("Exit");
+        this.add(render);
+        setVisible(true);
     }
 
 }
