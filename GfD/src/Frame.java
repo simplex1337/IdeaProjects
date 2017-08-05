@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 
 public class Frame extends JFrame {
 
+    private static final int MENU = 0;
+
     private Rectangle bounds;
 
     private Player1 player1;
@@ -16,18 +18,18 @@ public class Frame extends JFrame {
 
     private Ball ball;
 
-    private GameRender gr;
-
     private KeyAdapter binds;
 
+    private GameRender render;
+
     public Frame() {
+        System.out.println("Setting up frame...");
         setTitle("Game for Dec, GOTY");
         setBounds(300, 100, 700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-    }
+        System.out.println("Setting frame done");
 
-    public void load() {
         JLabel label = new JLabel("LOADING...");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setForeground(new Color(186, 189, 182));
@@ -37,18 +39,19 @@ public class Frame extends JFrame {
 
         setVisible(true);
 
+        System.out.println("Loading bounds");
         this.bounds = new Rectangle(10,10,671,330);
+        System.out.println("Loading player 1 preferences");
         this.player1 = new Player1(bounds);
+        System.out.println("Loading player 2 preferences");
         this.player2 = new Player2(bounds);
+        System.out.println("Loading ball preferences");
         this.ball = new Ball(bounds);
-    }
 
-    public void menu() {
+        System.out.println("Loading done. Setting render");
+        this.render = new GameRender(this.player1, this.player2, this.bounds, this.ball);
 
-    }
-
-    public void game() {
-        gr = new GameRender(player1, player2, bounds, ball);
+        System.out.println("Setting keybinds");
         binds = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -73,6 +76,12 @@ public class Frame extends JFrame {
 
         this.addKeyListener(binds);
 
-        this.add(gr);
+        System.out.println("All done");
     }
+
+    public void menu() {
+        render.setStatus(MENU);
+        add(render);
+    }
+
 }

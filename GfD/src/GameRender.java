@@ -10,6 +10,7 @@ public class GameRender extends JComponent implements Runnable {
     private Player2 player2;
     private Rectangle rectangle;
     private Ball ball;
+    private int status;
 
     public GameRender(Player1 player1, Player2 player2, Rectangle rectangle, Ball ball) {
 
@@ -17,18 +18,18 @@ public class GameRender extends JComponent implements Runnable {
         this.player2 = player2;
         this.rectangle = rectangle;
         this.ball = ball;
+        this.status = 0;
 
         new Thread(this).start();
 
     }
 
+    public void setStatus(int status) { this.status = status; }
+
+    public int getStatus() { return this.status; }
+
     @Override
     public void paint(Graphics g) {
-        drawSes(g, getBounds(), player1, player2, ball);
-    }
-
-    void drawSes(Graphics g, Rectangle area, Player1 player1, Player2 player2, Ball ball) {
-
         g.drawRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(),
                 (int) rectangle.getHeight());
 
@@ -44,7 +45,8 @@ public class GameRender extends JComponent implements Runnable {
     @Override
     public void run() {
         while (true) try {
-            ball.move(player1, player2);
+            if (this.status == 1)
+                ball.move(player1, player2);
             player1.move();
             player2.move();
 
