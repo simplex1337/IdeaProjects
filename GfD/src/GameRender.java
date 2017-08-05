@@ -26,14 +26,16 @@ public class GameRender extends JComponent implements Runnable {
 
     public void setStatus(int status) { this.status = status; }
 
-    public int getStatus() { return this.status; }
+    public boolean getStatus() { return this.status > 0; }
 
     @Override
     public void paint(Graphics g) {
-        g.drawRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(),
+        if (getStatus())
+            g.drawRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(),
                 (int) rectangle.getHeight());
 
-        g.fillOval((int) ball.getX(), (int) ball.getY(), ball.getR(), ball.getR());
+        if (getStatus())
+            g.fillOval((int) ball.getX(), (int) ball.getY(), ball.getR(), ball.getR());
 
         g.fillRect((int) player1.getX(), (int) player1.getY(), player1.getW(), player1.getH());
 
@@ -45,7 +47,7 @@ public class GameRender extends JComponent implements Runnable {
     @Override
     public void run() {
         while (true) try {
-            if (this.status == 1)
+            if (getStatus())
                 ball.move(player1, player2);
             player1.move();
             player2.move();

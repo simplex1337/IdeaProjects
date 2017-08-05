@@ -76,12 +76,17 @@ public class Frame extends JFrame {
 
         this.addKeyListener(binds);
 
-        System.out.println("All done");
+        this.remove(label);
+        this.getContentPane().setBackground(Color.WHITE);
     }
 
     public void menu() {
         render.setStatus(MENU);
         add(render);
+        this.repaint();
+        JLabel start = new JLabel("Start");
+        JLabel how_to = new JLabel("How to");
+        JLabel exit = new JLabel("Exit");
     }
 
 }
