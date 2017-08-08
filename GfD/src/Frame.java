@@ -50,6 +50,7 @@ public class Frame extends JFrame {
 
         System.out.println("Loading done. Setting render");
         this.render = new GameRender(this.player1, this.player2, this.bounds, this.ball);
+        render.setSize(this.getSize());
 
         System.out.println("Setting keybinds");
         binds = new KeyAdapter() {
@@ -74,17 +75,39 @@ public class Frame extends JFrame {
 
         this.remove(label);
         this.getContentPane().setBackground(Color.WHITE);
+        this.setLayout(new BorderLayout());
+
         setVisible(false);
     }
 
     public void menu() {
         render.setStatus(MENU);
-        JLabel start = new JLabel("Start");
-        start.setHorizontalAlignment(JLabel.CENTER);
-        start.setFont(new Font("Verdana", Font.PLAIN, 20));
-        JLabel how_to = new JLabel("How to");
-        JLabel exit = new JLabel("Exit");
-        this.add(render);
+
+        JButton start = new JButton("Start");
+        start.setFont(new Font("Verdana", Font.PLAIN, 12));
+        start.setSize(40, 30);
+        start.setMargin(new Insets(0,0,0,0));
+        start.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2);
+
+        JButton exit = new JButton("Exit");
+        exit.setFont(new Font("Verdana", Font.PLAIN, 12));
+        exit.setSize(40, 30);
+        exit.setMargin(new Insets(0,0,0,0));
+        exit.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2 + exit.getHeight());
+
+        JLabel gameName = new JLabel("Game for Dec");
+        gameName.setFont(new Font("Verdana", Font.BOLD, 24));
+        gameName.setBounds(0,0,100,30);
+        gameName.setSize(180, 30);
+        gameName.setLocation(this.getWidth() / 2 - gameName.getWidth() / 2, this.getHeight() / 4);
+
+        JLayeredPane zPane = new JLayeredPane();
+        this.add(zPane, BorderLayout.CENTER);
+        zPane.add(gameName);
+        zPane.add(start);
+        zPane.add(exit);
+        zPane.add(render);
+
         setVisible(true);
     }
 

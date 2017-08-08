@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * Created by alex on 06.02.17.
  */
-public class GameRender extends JComponent implements Runnable {
+public class GameRender extends JComponent {
 
     private Player1 player1;
     private Player2 player2;
@@ -20,13 +20,11 @@ public class GameRender extends JComponent implements Runnable {
         this.ball = ball;
         this.status = 0;
 
-        new Thread(this).start();
-
     }
 
     public void setStatus(int status) { this.status = status; }
 
-    public boolean getStatus() { return this.status > 0; }
+    public boolean getStatus() { return this.status == 1; }
 
     @Override
     public void paint(Graphics g) {
@@ -44,18 +42,4 @@ public class GameRender extends JComponent implements Runnable {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    @Override
-    public void run() {
-        while (true) try {
-            if (getStatus())
-                ball.move(player1, player2);
-            player1.move();
-            player2.move();
-
-            super.repaint();
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
