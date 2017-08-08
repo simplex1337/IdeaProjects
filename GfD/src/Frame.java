@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -21,6 +23,7 @@ public class Frame extends JFrame {
     private KeyAdapter binds;
 
     private GameRender render;
+
 
     public Frame() {
         System.out.println("Setting up frame...");
@@ -84,12 +87,20 @@ public class Frame extends JFrame {
         render.setStatus(MENU);
 
         JButton start = new JButton("Start");
+
         start.setFont(new Font("Verdana", Font.PLAIN, 12));
         start.setSize(40, 30);
         start.setMargin(new Insets(0,0,0,0));
         start.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2);
 
         JButton exit = new JButton("Exit");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
         exit.setFont(new Font("Verdana", Font.PLAIN, 12));
         exit.setSize(40, 30);
         exit.setMargin(new Insets(0,0,0,0));
@@ -107,6 +118,18 @@ public class Frame extends JFrame {
         zPane.add(start);
         zPane.add(exit);
         zPane.add(render);
+
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                zPane.remove(gameName);
+                zPane.remove(start);
+                zPane.remove(exit);
+                repaint();
+//                render.run();
+
+            }
+        });
 
         setVisible(true);
     }
