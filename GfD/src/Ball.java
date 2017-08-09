@@ -14,14 +14,7 @@ public class Ball {
 
     public Ball(Rectangle bounds) {
         setBounds(bounds);
-        setX(bounds.getMaxX() / 2);
-        setY(bounds.getMaxY() / 2);
-        Random rnd = new Random(System.currentTimeMillis());
-        if (rnd.nextBoolean())
-            setVecx(3);
-        else
-            setVecx(-3);
-        setVecy((rnd.nextInt(3) - 2) * 3);
+        reset();
         setR(10);
     }
 
@@ -73,5 +66,16 @@ public class Ball {
         setX(getX() + getVecx());
         setY(getY() + getVecy());
         return false;
+    }
+
+    public void reset() {
+        setX(bounds.getMaxX() / 2);
+        setY(bounds.getMaxY() / 2);
+        Random rnd = new Random(System.currentTimeMillis());
+        if (rnd.nextBoolean())
+            setVecx(3);
+        else
+            setVecx(-3);
+        setVecy((rnd.nextInt(3) - 2) * 3);
     }
 }

@@ -10,6 +10,7 @@ public class Frame extends JFrame {
 
     private static final int MENU = 0;
     private static final int GAME = 1;
+    private static final int SCORE = 2;
 
     private Rectangle bounds;
 
@@ -22,6 +23,9 @@ public class Frame extends JFrame {
 
     private GameRender render;
 
+    private Timer tick;
+
+    int frames;
 
     public Frame() {
         System.out.println("Setting up frame...");
@@ -51,7 +55,23 @@ public class Frame extends JFrame {
 
         System.out.println("Loading done. Setting render");
         this.render = new GameRender(this.player1, this.player2, this.bounds, this.ball);
-        render.setSize(this.getSize());
+        this.render.setSize(this.getSize());
+        this.tick = new Timer(10, actionEvent -> {
+            render.repaint();
+            player1.move();
+            player2.move();
+            if (render.getStatus())
+                if (ball.move(player1, player2))
+                    render.setStatus(SCORE);
+            frames++;
+        });
+        tick.setRepeats(true);
+        tick.start();
+
+        new Timer(1000, actionEvent -> {
+            System.out.println("FPS: " + frames);
+            frames = 0;
+        }).start();
 
         System.out.println("Setting keybinds");
         binds = new KeyListener() {
@@ -69,10 +89,7 @@ public class Frame extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_D) player1.toggleDown(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_O) player2.toggleUp(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_L) player2.toggleDown(pressed);
-                if (e.getKeyCode() == KeyEvent.VK_Q) {
-                    setVisible(false);
-                    dispose();
-                }
+                if (e.getKeyCode() == KeyEvent.VK_Q) { System.exit(0); }
             }
         };
 
@@ -113,6 +130,7 @@ public class Frame extends JFrame {
         zPane.add(start);
         zPane.add(exit);
         zPane.add(render);
+        render.requestFocus();
 
         start.addActionListener(e -> {
             zPane.remove(gameName);
@@ -132,17 +150,6 @@ public class Frame extends JFrame {
 
     public void game() {
         render.setStatus(GAME);
-        boolean exec = true;
-        render.requestFocus();
-
-        Timer tick = new Timer(10, actionEvent -> {
-            render.repaint();
-            player1.move();
-            player2.move();
-            ball.move(player1, player2);
-        });
-        tick.setRepeats(true);
-        tick.start();
     }
 
 }
