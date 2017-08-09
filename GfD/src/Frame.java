@@ -76,7 +76,7 @@ public class Frame extends JFrame {
             }
         };
 
-        this.addKeyListener(binds);
+        render.addKeyListener(binds);
 
         this.remove(label);
         this.getContentPane().setBackground(Color.WHITE);
@@ -133,7 +133,7 @@ public class Frame extends JFrame {
     public void game() {
         render.setStatus(GAME);
         boolean exec = true;
-        render.requestFocusInWindow();
+        render.requestFocus();
 
         Timer tick = new Timer(10, actionEvent -> {
             render.repaint();
