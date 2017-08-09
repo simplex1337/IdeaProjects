@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 /**
  * Created by alex on 06.02.17.
@@ -12,6 +9,7 @@ import java.awt.event.KeyEvent;
 public class Frame extends JFrame {
 
     private static final int MENU = 0;
+    private static final int GAME = 1;
 
     private Rectangle bounds;
 
@@ -20,7 +18,7 @@ public class Frame extends JFrame {
 
     private Ball ball;
 
-    private KeyAdapter binds;
+    private KeyListener binds;
 
     private GameRender render;
 
@@ -56,7 +54,7 @@ public class Frame extends JFrame {
         render.setSize(this.getSize());
 
         System.out.println("Setting keybinds");
-        binds = new KeyAdapter() {
+        binds = new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) { toggle(e, true); }
 
@@ -71,6 +69,10 @@ public class Frame extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_D) player1.toggleDown(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_O) player2.toggleUp(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_L) player2.toggleDown(pressed);
+                if (e.getKeyCode() == KeyEvent.VK_Q) {
+                    setVisible(false);
+                    dispose();
+                }
             }
         };
 
@@ -87,20 +89,13 @@ public class Frame extends JFrame {
         render.setStatus(MENU);
 
         JButton start = new JButton("Start");
-
+        start.setFocusable(false);
         start.setFont(new Font("Verdana", Font.PLAIN, 12));
         start.setSize(40, 30);
         start.setMargin(new Insets(0,0,0,0));
         start.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2);
 
         JButton exit = new JButton("Exit");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-            }
-        });
         exit.setFont(new Font("Verdana", Font.PLAIN, 12));
         exit.setSize(40, 30);
         exit.setMargin(new Insets(0,0,0,0));
@@ -119,19 +114,35 @@ public class Frame extends JFrame {
         zPane.add(exit);
         zPane.add(render);
 
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                zPane.remove(gameName);
-                zPane.remove(start);
-                zPane.remove(exit);
-                repaint();
-//                render.run();
+        start.addActionListener(e -> {
+            zPane.remove(gameName);
+            zPane.remove(start);
+            zPane.remove(exit);
+            render.repaint();
+            game();
+        });
 
-            }
+        exit.addActionListener(e -> {
+            setVisible(false);
+            dispose();
         });
 
         setVisible(true);
+    }
+
+    public void game() {
+        render.setStatus(GAME);
+        boolean exec = true;
+        render.requestFocusInWindow();
+
+        Timer tick = new Timer(10, actionEvent -> {
+            render.repaint();
+            player1.move();
+            player2.move();
+            ball.move(player1, player2);
+        });
+        tick.setRepeats(true);
+        tick.start();
     }
 
 }

@@ -20,9 +20,6 @@ public class GameRender extends JComponent {
         this.ball = ball;
         this.status = 0;
 
-//        new Thread(this).start();
-
-
     }
 
     public void setStatus(int status) { this.status = status; }
@@ -43,22 +40,6 @@ public class GameRender extends JComponent {
         g.fillRect((int) player2.getX(), (int) player2.getY(), player2.getW(), player2.getH());
 
         Toolkit.getDefaultToolkit().sync();
-    }
-
-
-    public void run () {
-        while (true) {
-            try {
-                ball.move(player1, player2);
-                player1.move();
-                player2.move();
-//                    Frame.super.repaint();
-                super.repaint();
-                Thread.sleep(10);
-            } catch (InterruptedException err) {
-                err.printStackTrace();
-            }
-        }
     }
 
 }
