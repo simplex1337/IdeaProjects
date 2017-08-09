@@ -11,9 +11,12 @@ public class GameRender extends JComponent {
     private Rectangle rectangle;
     private Ball ball;
     private int status;
+    public JLayeredPane zPane;
 
     public GameRender(Player1 player1, Player2 player2, Rectangle rectangle, Ball ball) {
 
+        zPane = new JLayeredPane();
+        zPane.add(this);
         this.player1 = player1;
         this.player2 = player2;
         this.rectangle = rectangle;
@@ -24,15 +27,15 @@ public class GameRender extends JComponent {
 
     public void setStatus(int status) { this.status = status; }
 
-    public boolean getStatus() { return this.status == 1; }
+    public int getStatus() { return this.status; }
 
     @Override
     public void paint(Graphics g) {
-        if (getStatus())
+        if (getStatus() == 1)
             g.drawRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(),
                 (int) rectangle.getHeight());
 
-        if (getStatus())
+        if (getStatus() != 0)
             g.fillOval((int) ball.getX(), (int) ball.getY(), ball.getR(), ball.getR());
 
         g.fillRect((int) player1.getX(), (int) player1.getY(), player1.getW(), player1.getH());

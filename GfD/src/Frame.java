@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by alex on 06.02.17.
@@ -8,9 +9,8 @@ import java.awt.event.*;
 
 public class Frame extends JFrame {
 
-    private static final int MENU = 0;
+    private static final int STOP = 0;
     private static final int GAME = 1;
-    private static final int SCORE = 2;
 
     private Rectangle bounds;
 
@@ -20,6 +20,7 @@ public class Frame extends JFrame {
     private Ball ball;
 
     private KeyListener binds;
+    private JLabel score;
 
     private GameRender render;
 
@@ -56,13 +57,17 @@ public class Frame extends JFrame {
         System.out.println("Loading done. Setting render");
         this.render = new GameRender(this.player1, this.player2, this.bounds, this.ball);
         this.render.setSize(this.getSize());
+
         this.tick = new Timer(10, actionEvent -> {
             render.repaint();
             player1.move();
             player2.move();
-            if (render.getStatus())
-                if (ball.move(player1, player2))
-                    render.setStatus(SCORE);
+            if (render.getStatus() == GAME) {
+                if (ball.move(player1, player2)) {
+                    render.setStatus(STOP);
+                    game();
+                }
+            }
             frames++;
         });
         tick.setRepeats(true);
@@ -70,12 +75,10 @@ public class Frame extends JFrame {
 
         new Timer(1000, actionEvent -> {
             System.out.println("FPS: " + frames);
-            System.out.println("score1 " + player1.getScore());
-            System.out.println("score2 " + player2.getScore());
             frames = 0;
         }).start();
 
-        System.out.println("Setting keybinds");
+        System.out.println("Setting keybindings");
         binds = new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) { toggle(e, true); }
@@ -105,7 +108,7 @@ public class Frame extends JFrame {
     }
 
     public void menu() {
-        render.setStatus(MENU);
+        render.setStatus(STOP);
 
         JButton start = new JButton("Start");
         start.setFocusable(false);
@@ -122,36 +125,60 @@ public class Frame extends JFrame {
 
         JLabel gameName = new JLabel("Game for Dec");
         gameName.setFont(new Font("Verdana", Font.BOLD, 24));
-        gameName.setBounds(0,0,100,30);
-        gameName.setSize(180, 30);
+        gameName.setBounds(0,0,180,30);
+        gameName.setSize(190, 30);
         gameName.setLocation(this.getWidth() / 2 - gameName.getWidth() / 2, this.getHeight() / 4);
 
-        JLayeredPane zPane = new JLayeredPane();
-        this.add(zPane, BorderLayout.CENTER);
-        zPane.add(gameName);
-        zPane.add(start);
-        zPane.add(exit);
-        zPane.add(render);
+        this.add(render.zPane, BorderLayout.CENTER);
+        render.zPane.add(gameName);
+        render.zPane.add(start);
+        render.zPane.add(exit);
         render.requestFocus();
 
         start.addActionListener(e -> {
-            zPane.remove(gameName);
-            zPane.remove(start);
-            zPane.remove(exit);
-            render.repaint();
+            render.zPane.remove(gameName);
+            render.zPane.remove(start);
+            render.zPane.remove(exit);
+
+            score = new JLabel();
+            score.setFont(new Font("Verdana", Font.BOLD, 24));
+            score.setBounds(0,0, 90,30);
+            score.setSize(80, 30);
+            score.setLocation(this.getWidth() / 2 - score.getWidth() / 2, this.getHeight() / 6);
+            render.zPane.add(score);
+
             game();
         });
 
         exit.addActionListener(e -> {
-            setVisible(false);
-            dispose();
+            System.exit(0);
         });
 
         setVisible(true);
     }
 
     public void game() {
-        render.setStatus(GAME);
+        score.setText(player1.getScore() + " - " + player2.getScore());
+        JLabel gap = new JLabel();
+        gap.setFont(new Font("Verdana", Font.BOLD, 24));
+        gap.setBounds(0,0,30,30);
+        gap.setSize(30, 30);
+        gap.setLocation(this.getWidth() / 2 - gap.getWidth() / 2, this.getHeight() / 4);
+        render.zPane.add(gap);
+        new Thread(() -> {
+            for (int i = 3; i > 0; i--) {
+                gap.setText("" + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            render.zPane.remove(gap);
+
+            ball.reset();
+            render.setStatus(GAME);
+        }).start();
     }
 
 }
