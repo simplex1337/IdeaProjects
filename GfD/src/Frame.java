@@ -110,15 +110,15 @@ public class Frame extends JFrame {
         JButton start = new JButton("Start");
         start.setFocusable(false);
         start.setFont(new Font("Verdana", Font.PLAIN, 12));
-        start.setSize(40, 30);
+        start.setSize(140, 30);
         start.setMargin(new Insets(0,0,0,0));
-        start.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2);
+        start.setLocation(this.getWidth() / 2 - start.getWidth() / 2, this.getHeight() / 2);
 
         JButton exit = new JButton("Exit");
         exit.setFont(new Font("Verdana", Font.PLAIN, 12));
-        exit.setSize(40, 30);
+        exit.setSize(140, 30);
         exit.setMargin(new Insets(0,0,0,0));
-        exit.setLocation(this.getWidth() / 4 * 3, this.getHeight() / 3 * 2 + exit.getHeight());
+        exit.setLocation(this.getWidth() / 2 - exit.getWidth() / 2, this.getHeight() / 2 + exit.getHeight());
 
         JLabel gameName = new JLabel("Game for Dec");
         gameName.setFont(new Font("Verdana", Font.BOLD, 24));
