@@ -70,6 +70,8 @@ public class Frame extends JFrame {
 
         new Timer(1000, actionEvent -> {
             System.out.println("FPS: " + frames);
+            System.out.println("score1 " + player1.getScore());
+            System.out.println("score2 " + player2.getScore());
             frames = 0;
         }).start();
 

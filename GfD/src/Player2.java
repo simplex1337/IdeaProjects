@@ -16,12 +16,15 @@ public class Player2 {
     private boolean up;
     private boolean down;
 
+    private int score; // количество забитых шаров
+
     public Player2(Rectangle bounds) {
         setBounds(bounds);
         setX(bounds.getMaxX() - 19);
         setY(100);
         setH(100);
         setW(20);
+        setScore(0);
     }
 
     public double getX() {
@@ -38,6 +41,9 @@ public class Player2 {
 
     private void setBounds(Rectangle bounds) { this.bounds = bounds; }
 
+    public int getScore() {
+        return score;
+    }
 
     public int getW() {
         return w;
@@ -57,6 +63,10 @@ public class Player2 {
 
     public void setW(int w) {
         this.w = w;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     private void moveup() {
