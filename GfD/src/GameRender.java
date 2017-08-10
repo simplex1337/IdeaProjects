@@ -31,11 +31,11 @@ public class GameRender extends JComponent {
 
     @Override
     public void paint(Graphics g) {
-        if (getStatus() == 1)
+        if (getStatus() != 0)
             g.drawRect((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(),
                 (int) rectangle.getHeight());
 
-        if (getStatus() != 0)
+        if (getStatus() == 1)
             g.fillOval((int) ball.getX(), (int) ball.getY(), ball.getR(), ball.getR());
 
         g.fillRect((int) player1.getX(), (int) player1.getY(), player1.getW(), player1.getH());

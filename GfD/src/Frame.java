@@ -9,8 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Frame extends JFrame {
 
-    private static final int STOP = 0;
+    private static final int MENU = 0;
     private static final int GAME = 1;
+    private static final int SCORE = 2;
 
     private Rectangle bounds;
 
@@ -31,7 +32,7 @@ public class Frame extends JFrame {
     public Frame() {
         System.out.println("Setting up frame...");
         setTitle("Game for Dec, GOTY");
-        setBounds(300, 100, 700, 400);
+        setBounds(300, 100, 700, 440);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         System.out.println("Setting frame done");
@@ -64,7 +65,7 @@ public class Frame extends JFrame {
             player2.move();
             if (render.getStatus() == GAME) {
                 if (ball.move(player1, player2)) {
-                    render.setStatus(STOP);
+                    render.setStatus(SCORE);
                     game();
                 }
             }
@@ -108,7 +109,7 @@ public class Frame extends JFrame {
     }
 
     public void menu() {
-        render.setStatus(STOP);
+        render.setStatus(MENU);
 
         JButton start = new JButton("Start");
         start.setFocusable(false);
@@ -144,7 +145,8 @@ public class Frame extends JFrame {
             score.setFont(new Font("Verdana", Font.BOLD, 24));
             score.setBounds(0,0, 90,30);
             score.setSize(80, 30);
-            score.setLocation(this.getWidth() / 2 - score.getWidth() / 2, this.getHeight() / 6);
+            score.setLocation(this.getWidth() / 2 - score.getWidth() / 2,
+                    (int) bounds.getHeight() + (int) bounds.getMinY() * 3);
             render.zPane.add(score);
 
             game();
@@ -158,7 +160,9 @@ public class Frame extends JFrame {
     }
 
     public void game() {
-        score.setText(player1.getScore() + " - " + player2.getScore());
+        if (render.getStatus() != 0)
+            score.setText(player1.getScore() + " - " + player2.getScore());
+
         JLabel gap = new JLabel();
         gap.setFont(new Font("Verdana", Font.BOLD, 24));
         gap.setBounds(0,0,30,30);
@@ -175,6 +179,8 @@ public class Frame extends JFrame {
                 }
             }
             render.zPane.remove(gap);
+            if (render.getStatus() == 0)
+                score.setText(player1.getScore() + " - " + player2.getScore());
 
             ball.reset();
             render.setStatus(GAME);
