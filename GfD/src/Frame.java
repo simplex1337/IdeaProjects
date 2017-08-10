@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by alex on 06.02.17.
@@ -82,20 +81,32 @@ public class Frame extends JFrame {
         System.out.println("Setting keybindings");
         binds = new KeyListener() {
             @Override
-            public void keyPressed(KeyEvent e) { toggle(e, true); }
-
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_Q) {
+                    if (render.getStatus() > 0) {
+                        render.setStatus(MENU);
+                        render.zPane.removeAll();
+                        render.zPane.add(render);
+                        menu();
+                    } else {
+                        System.exit(0);
+                    }
+                } else {
+                    toggle(e, true);
+                }
+            }
             @Override
             public void keyReleased(KeyEvent e) { toggle(e, false); }
 
             @Override
-            public void keyTyped(KeyEvent e) { }
+            public void keyTyped(KeyEvent e) {
+            }
 
             private void toggle(KeyEvent e, boolean pressed) {
                 if (e.getKeyCode() == KeyEvent.VK_E) player1.toggleUp(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_D) player1.toggleDown(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_O) player2.toggleUp(pressed);
                 if (e.getKeyCode() == KeyEvent.VK_L) player2.toggleDown(pressed);
-                if (e.getKeyCode() == KeyEvent.VK_Q) { System.exit(0); }
             }
         };
 
@@ -179,8 +190,24 @@ public class Frame extends JFrame {
                 }
             }
             render.zPane.remove(gap);
-            if (render.getStatus() == 0)
+            if (render.getStatus() == 0) {
                 score.setText(player1.getScore() + " - " + player2.getScore());
+
+                JButton back = new JButton("Menu");
+                back.setFont(new Font("Verdana", Font.PLAIN, 12));
+                back.setSize(70, 30);
+                back.setMargin(new Insets(0,0,0,0));
+                back.setLocation((int) bounds.getMaxX() - back.getWidth(),
+                        (int) bounds.getHeight() + (int) bounds.getMinY() * 3);
+                back.addActionListener(actionEvent -> {
+                    render.setStatus(MENU);
+                    render.zPane.removeAll();
+                    render.zPane.add(render);
+                    menu();
+                });
+                render.zPane.add(back);
+
+            }
 
             ball.reset();
             render.setStatus(GAME);
