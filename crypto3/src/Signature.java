@@ -56,14 +56,13 @@ public class Signature {
     public void el_gamal(String filename) throws Exception {
         int p = get_big_prime();
         Random rnd = new Random();
-        int g;
+        int g, k;
         int q = (p - 1) / 2;
         do {
             g = rnd.nextInt(p - 3) + 2;
         } while (mod_pow(g, q, p) == 1);
         int x = rnd.nextInt(p - 1);
         int y = mod_pow(g, x, p);
-        int k;
         do
             k = rnd.nextInt(p - 2);
         while (gcd(k, p - 1) != 1);
@@ -99,6 +98,25 @@ public class Signature {
             System.out.println("This sign is valid");
         else
             System.out.println("This sign is invalid");
+    }
+
+    public void gost(String filename) {
+        int q = get_big_prime(5000,10000);
+        int a, b = 1, p, g, x, y, k;
+        do {
+            b++;
+            p = b * q + 1;
+        } while (!is_prime(p));
+        Random rnd = new Random();
+        do {
+            g = rnd.nextInt(p - 3) + 2;
+            a = mod_pow(g, b, p);
+        } while (a < 2);
+        x = rnd.nextInt(q - 2) + 1;
+        y = mod_pow(a, x, p);
+//        System.out.println("q = " + q + " b = " + b + " p = " + p + " y = " + y);
+        
+
     }
 
     private long ext_gcd(long a, long b ) { //ax + by = d

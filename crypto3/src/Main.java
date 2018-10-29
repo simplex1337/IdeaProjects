@@ -11,8 +11,9 @@ public class Main {
         Signature sign = new Signature("src/file");
 //        sign.rsa("src/sign_new");
 //        sign.check_rsa("src/sign_new");
-        sign.el_gamal("src/el_sign");
-        sign.check_el_gamal("src/el_sign");
+//        sign.el_gamal("src/el_sign");
+//        sign.check_el_gamal("src/el_sign");
+        sign.gost("src/g_sign");
 
     }
 }
