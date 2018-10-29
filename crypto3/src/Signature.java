@@ -41,19 +41,19 @@ public class Signature {
         int[] keys = bytes_to_ints(byte_parse_file("src/rsa_keys"));
         int d = keys[0];
         int n = keys[1];
-        int[] cacl_hash = new int[sign.length];
+        int[] calc_hash = new int[sign.length];
 //        System.out.println();
-        for (int i = 0; i < cacl_hash.length; i++) {
-            cacl_hash[i] = mod_pow(sign[i], d, n);
+        for (int i = 0; i < calc_hash.length; i++) {
+            calc_hash[i] = mod_pow(sign[i], d, n);
 //            System.out.print(cacl_hash[i] + " ");
         }
-        if (Arrays.equals(hash, cacl_hash))
-            System.out.println("\nThis sign is valid");
+        if (Arrays.equals(hash, calc_hash))
+            System.out.println("This sign is valid");
         else
-            System.out.println("\nThis sign is invalid");
+            System.out.println("This sign is invalid");
     }
 
-    public void el_gamal(String filename) {
+    public void el_gamal(String filename) throws Exception {
         int p = get_big_prime();
         Random rnd = new Random();
         int g;
@@ -68,7 +68,37 @@ public class Signature {
             k = rnd.nextInt(p - 2);
         while (gcd(k, p - 1) != 1);
         int r = mod_pow(g, k, p);
+        int[] u = new int[hash.length];
+        int[] sign = new int[hash.length + 1];
+        int _k = (int) ext_gcd(k, p - 1);
+        for (int i = 0; i < u.length; i++) {
+            u[i] = (hash[i] - x * r) % (p - 1);
+            sign[i] = (_k * u[i]) % (p - 1);
+        }
+        sign[sign.length - 1] = r;
+        int keys[] = {y, p, g};
+        write_in_file(integers_to_bytes(keys), "src/elg_key");
+        write_in_file(integers_to_bytes(sign), filename);
+    }
 
+    public void check_el_gamal(String filename) {
+        int[] keys = bytes_to_ints(byte_parse_file("src/elg_key"));
+        int[] sign = bytes_to_ints(byte_parse_file(filename));
+        int y = keys[0];
+        int p = keys[1];
+        int g = keys[2];
+        int r = sign[sign.length - 1];
+        int yr[] = new int[hash.length];
+        int calc_hash[] = new int[hash.length];
+        for (int i = 0; i < hash.length; i++) {
+            yr[i] = (mod_pow(y, r, p) * mod_pow(r, sign[i], p)) % p;
+            calc_hash[i] = mod_pow(g, hash[i], p);
+//            System.out.println(yr[i] + " " + calc_hash[i]);
+        }
+        if (Arrays.equals(yr, calc_hash))
+            System.out.println("This sign is valid");
+        else
+            System.out.println("This sign is invalid");
     }
 
     private long ext_gcd(long a, long b ) { //ax + by = d
@@ -183,6 +213,10 @@ public class Signature {
             System.out.println(ex.getMessage());
         }
         return buffer;
+    }
+
+    public byte[] int_to_byte(int digit){
+        return ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(digit).array();
     }
 
 

@@ -9,8 +9,10 @@ public class Main {
         }*/
 //        new Signature("src/file").rsa("src/sign");
         Signature sign = new Signature("src/file");
-        sign.rsa("src/sign_new");
-        sign.check_rsa("src/sign_new");
+//        sign.rsa("src/sign_new");
+//        sign.check_rsa("src/sign_new");
+        sign.el_gamal("src/el_sign");
+        sign.check_el_gamal("src/el_sign");
 
     }
 }
