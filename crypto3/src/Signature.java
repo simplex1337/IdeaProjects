@@ -76,7 +76,7 @@ public class Signature {
         }
         sign[sign.length - 1] = r;
         int keys[] = {y, p, g};
-        write_in_file(integers_to_bytes(keys), "src/elg_key");
+        write_in_file(integers_to_bytes(keys), "src/elg_keys");
         write_in_file(integers_to_bytes(sign), filename);
     }
 
@@ -100,9 +100,10 @@ public class Signature {
             System.out.println("This sign is invalid");
     }
 
-    public void gost(String filename) {
+    public void gost(String filename) throws Exception {
         int q = get_big_prime(5000,10000);
-        int a, b = 1, p, g, x, y, k;
+        int a, b = 1, p, g, x, y, k, r;
+        int[] sign = new int[hash.length + 1];
         do {
             b++;
             p = b * q + 1;
@@ -115,8 +116,51 @@ public class Signature {
         x = rnd.nextInt(q - 2) + 1;
         y = mod_pow(a, x, p);
 //        System.out.println("q = " + q + " b = " + b + " p = " + p + " y = " + y);
-        
+        do {
+            k = rnd.nextInt(q - 2) + 1;
+            r = mod_pow(a, k, p) % q;
+        } while (r == 0);
 
+        for(int i = 0; i < hash.length; i++) {
+            sign[i] = (k * hash[i] + x * r) % q;
+        }
+        sign[sign.length - 1] = r;
+        int keys[] = {p, q, a, y};
+        write_in_file(integers_to_bytes(keys), "src/gost_keys");
+        write_in_file(integers_to_bytes(sign), filename);
+    }
+
+    public void check_gost(String filename) {
+        int[] keys = bytes_to_ints(byte_parse_file("src/gost_keys"));
+        int[] sign = bytes_to_ints(byte_parse_file(filename));
+        int r = sign[sign.length - 1];
+        int p = keys[0];
+        int q = keys[1];
+        int a = keys[2];
+        int y = keys[3];
+        int flg = 0, u1, u2, check;
+        if (r < 1 || r > q)
+            flg = 1;
+        for (int i = 0; i < hash.length; i++) {
+            if (sign[i] < 1 || sign[i] > q) {
+                flg = 1;
+                break;
+            }
+            u1 = (sign[i] * (int) ext_gcd(hash[i], q) % q);
+            u2 = (-1 * r * (int) ext_gcd(hash[i], q) % q);
+            check = ((mod_pow(a, u1, p) * mod_pow(y, u2, p)) % p) % q;
+            System.out.println("r = " + r);
+            System.out.println("check = " + check);
+            if (check != r) {
+                flg = 1;
+                break;
+            }
+
+        }
+        if (flg == 0)
+            System.out.println("This sign is valid");
+        else
+            System.out.println("This sign is invalid");
     }
 
     private long ext_gcd(long a, long b ) { //ax + by = d

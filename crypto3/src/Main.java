@@ -14,6 +14,6 @@ public class Main {
 //        sign.el_gamal("src/el_sign");
 //        sign.check_el_gamal("src/el_sign");
         sign.gost("src/g_sign");
-
+        sign.check_gost("src/g_sign");
     }
 }
