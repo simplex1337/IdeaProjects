@@ -70,9 +70,11 @@ public class Signature {
         int[] u = new int[hash.length];
         int[] sign = new int[hash.length + 1];
         int _k = (int) ext_gcd(k, p - 1);
+        System.out.println("k = " + _k);
         for (int i = 0; i < u.length; i++) {
-            u[i] = (hash[i] - x * r) % (p - 1);
-            sign[i] = (_k * u[i]) % (p - 1);
+            u[i] = (hash[i] - x * r) % (p - 1) + (p - 1);
+//            System.out.println("u = " + u[i]);
+            sign[i] = (_k * u[i]) % (p - 1) + (p - 1);
         }
         sign[sign.length - 1] = r;
         int keys[] = {y, p, g};
@@ -80,8 +82,9 @@ public class Signature {
         write_in_file(integers_to_bytes(sign), filename);
     }
 
+    //выяснить почему не работает
     public void check_el_gamal(String filename) {
-        int[] keys = bytes_to_ints(byte_parse_file("src/elg_key"));
+        int[] keys = bytes_to_ints(byte_parse_file("src/elg_keys"));
         int[] sign = bytes_to_ints(byte_parse_file(filename));
         int y = keys[0];
         int p = keys[1];
@@ -92,7 +95,7 @@ public class Signature {
         for (int i = 0; i < hash.length; i++) {
             yr[i] = (mod_pow(y, r, p) * mod_pow(r, sign[i], p)) % p;
             calc_hash[i] = mod_pow(g, hash[i], p);
-//            System.out.println(yr[i] + " " + calc_hash[i]);
+//            System.out.println(sign[i] +  " " + yr[i] + " " + calc_hash[i]);
         }
         if (Arrays.equals(yr, calc_hash))
             System.out.println("This sign is valid");
@@ -101,7 +104,7 @@ public class Signature {
     }
 
     public void gost(String filename) throws Exception {
-        int q = get_big_prime(5000,10000);
+        int q = get_big_prime(1000,3000);
         int a, b = 1, p, g, x, y, k, r;
         int[] sign = new int[hash.length + 1];
         do {
@@ -120,7 +123,7 @@ public class Signature {
             k = rnd.nextInt(q - 2) + 1;
             r = mod_pow(a, k, p) % q;
         } while (r == 0);
-
+//        System.out.println("r = " + r);
         for(int i = 0; i < hash.length; i++) {
             sign[i] = (k * hash[i] + x * r) % q;
         }
@@ -134,11 +137,13 @@ public class Signature {
         int[] keys = bytes_to_ints(byte_parse_file("src/gost_keys"));
         int[] sign = bytes_to_ints(byte_parse_file(filename));
         int r = sign[sign.length - 1];
+        System.out.println("r = " + r);
         int p = keys[0];
         int q = keys[1];
         int a = keys[2];
         int y = keys[3];
-        int flg = 0, u1, u2, check;
+        int flg = 0, u1, u2;
+        long check;
         if (r < 1 || r > q)
             flg = 1;
         for (int i = 0; i < hash.length; i++) {
@@ -146,17 +151,19 @@ public class Signature {
                 flg = 1;
                 break;
             }
-            u1 = (sign[i] * (int) ext_gcd(hash[i], q) % q);
-            u2 = (-1 * r * (int) ext_gcd(hash[i], q) % q);
-            check = ((mod_pow(a, u1, p) * mod_pow(y, u2, p)) % p) % q;
-            System.out.println("r = " + r);
-            System.out.println("check = " + check);
+            u1 = (sign[i] * (int) ext_gcd(hash[i], q) % q) + q;
+            u2 = (-1 * r * (int) ext_gcd(hash[i], q) % q) + q;
+            check = ((mod_pow(a, u1, p) * mod_pow(y, u2, p)) % p) % q; //переполнение умножения, переделать в бигинт
+//            System.out.println("check = " + check + " 1 = " + (mod_pow(a, u1, p) + " 2 = " + mod_pow(y, u2, p)));
+//            System.out.println("u1 = " + u1);
             if (check != r) {
                 flg = 1;
-                break;
+//                break;
             }
-
         }
+//        System.out.println("sign[8] = " + sign[8]);
+//        System.out.println("hash[8] = " + hash[8]);
+        System.out.println("q = " + q);
         if (flg == 0)
             System.out.println("This sign is valid");
         else
