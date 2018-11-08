@@ -9,7 +9,7 @@ public class Player {
     public Player(int p) {
         this.p = p;
         this.c = gen_c();
-        this.d = (int) ext_gcd(c, p - 1);
+        this.d = (int) ext_gcd(c, p - 1) + p - 1;
     }
 
     private long ext_gcd(long a, long b ) { //ax + by = d

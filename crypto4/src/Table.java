@@ -32,9 +32,7 @@ public class Table {
     private boolean is_prime(int p) {
         if (p <= 1)
             return false;
-
         int b = (int) Math.pow(p, 0.5);
-
         for (int i = 2; i <= b; ++i) {
             if ((p % i) == 0 ) return false;
         }
