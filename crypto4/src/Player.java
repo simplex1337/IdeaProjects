@@ -5,11 +5,13 @@ public class Player {
     private int c;
     private int d;
     private int p;
+    private int[] pair;
 
     public Player(int p) {
         this.p = p;
         this.c = gen_c();
         this.d = (int) ext_gcd(c, p - 1) + p - 1;
+        this.pair = new int[2];
     }
 
     private long ext_gcd(long a, long b ) { //ax + by = d
@@ -58,4 +60,11 @@ public class Player {
         return d;
     }
 
+    public int[] getPair() {
+        return pair;
+    }
+
+    public void setPair(int[] pair) {
+        this.pair = pair;
+    }
 }

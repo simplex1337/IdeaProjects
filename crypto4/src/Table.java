@@ -22,13 +22,38 @@ public class Table {
     }
 
     public void distribution() {
-         for(Player player:players) {
-             code_cards(player.getC());
-//             System.out.println();
-         }
+        for(Player player:players) {
+            code_cards(player.getC());
+//          System.out.println();
+        }
          // раздаем по 2 карты каждому
          // каждый просит остальных расшифровать карты
-         // потом расшифровывает сам и узнает свои карты
+         // потом расшифровывает сам и узнает свои карты\
+        int i = 0;
+        for(Player player:players) {
+            player.setPair(new int[]{cards[i], cards[i + 1]});
+            i += 2;
+        }
+        check_cards_by_id(1);
+
+    }
+
+    public void check_cards_by_id(int id) {
+        for (int i = 0; i < players.size(); i++) {
+            int first, second;
+            if (i != id) {
+                first = mod_pow(players.get(id).getPair()[0], players.get(i).getD(), p);
+                second = mod_pow(players.get(id).getPair()[1], players.get(i).getD(), p);
+                players.get(i).setPair(new int[]{first, second});
+            }
+        }
+        int f, s;
+        f = mod_pow(players.get(id).getPair()[0], players.get(id).getD(), p);
+        s = mod_pow(players.get(id).getPair()[1], players.get(id).getD(), p);
+        players.get(id).setPair(new int[]{f, s});
+        System.out.println("cards for player i = " + players.get(id).getPair()[0] + " - "
+                + players.get(id).getPair()[1]);
+
     }
 
     public void code_cards(int c) {
@@ -38,9 +63,9 @@ public class Table {
         }
         shuffleArray(coded_cards);
         this.cards = coded_cards;
-        for (int i = 0; i < cards.length; i++) {
-            System.out.print(" " + cards[i]);
-        }
+//        for (int i = 0; i < cards.length; i++) {
+//            System.out.print(" " + cards[i]);
+//        }
     }
 
     public static void shuffleArray(int[] a) {
