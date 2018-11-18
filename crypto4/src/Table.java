@@ -44,7 +44,7 @@ public class Table {
             if (i != id) {
                 first = mod_pow(players.get(id).getPair()[0], players.get(i).getD(), p);
                 second = mod_pow(players.get(id).getPair()[1], players.get(i).getD(), p);
-                players.get(i).setPair(new int[]{first, second});
+                players.get(id).setPair(new int[]{first, second});
             }
         }
         int f, s;
