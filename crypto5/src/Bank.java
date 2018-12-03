@@ -21,6 +21,8 @@ public class Bank {
         while (gcd(d, f) != 1);
         this.c = (int) ext_gcd(d, f) + f;
 
+        this.used_cash = new Hashtable<Integer, Integer>();
+
     }
 
     public int get_big_prime() {
@@ -31,9 +33,13 @@ public class Bank {
     }
 
     public boolean check_banknote(int n, int banknote) {
-        if (used_cash.containsKey(n) && used_cash.get(n) == banknote)
+        if (this.used_cash.containsKey(n) && this.used_cash.get(n) == banknote)
             return false;
         else return true;
+    }
+
+    public void add_banknote(int n, int banknote) {
+        this.used_cash.put(n, banknote);
     }
 
     private boolean is_prime(int p) {
@@ -59,7 +65,7 @@ public class Bank {
         return (int) res;
     }
 
-    private long ext_gcd(long a, long b ) { //ax + by = d
+    public long ext_gcd(long a, long b ) { //ax + by = d
         if (b == 0) {
             long ans[] = {a, 1, 0};
             return ans[1];
@@ -88,15 +94,26 @@ public class Bank {
         return (b != 0) ? gcd(b, a % b) : a;
     }
 
-    public byte[] getHash(int n) throws NoSuchAlgorithmException {
+    public int[] getHash(int n) throws NoSuchAlgorithmException {
         byte[] bytes = int_to_bytes(n);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] hash = md.digest(bytes);
-        return hash;
+        int[] hash_int = byte_mod(hash);
+        return hash_int;
     }
 
     public byte[] int_to_bytes(int digit){
         return ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(digit).array();
+    }
+
+    private int[] byte_mod(byte[] bytes) {
+        int buf[] = new int[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+//            System.out.print(" " + bytes[i]);
+            buf[i] = bytes[i] + 128;
+//            System.out.print(" " + buf[i]);
+        }
+        return buf;
     }
 
     public int getN() {
@@ -105,5 +122,9 @@ public class Bank {
 
     public int getD() {
         return d;
+    }
+
+    public int getC() {
+        return c;
     }
 }
