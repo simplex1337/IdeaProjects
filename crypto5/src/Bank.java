@@ -2,6 +2,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -32,10 +33,22 @@ public class Bank {
         return x;
     }
 
-    public boolean check_banknote(int n, int banknote) {
-        if (this.used_cash.containsKey(n) && this.used_cash.get(n) == banknote)
+    public boolean check_banknote(int id, int banknote, int[] s) throws NoSuchAlgorithmException {
+        if (this.used_cash.containsKey(n) && this.used_cash.get(n) == banknote) {
+            System.out.println("This number of banknote is already used");
             return false;
-        else return true;
+        }
+        int[] f_n = getHash(id);
+        int[] _s = new int[f_n.length];
+        for (int i = 0; i < s.length; i++) {
+            _s[i] = mod_pow(s[i], d, n);
+        }
+        if (Arrays.equals(f_n, _s))
+            return true;
+        else {
+            System.out.println("This bank sign is invalid");
+            return false;
+        }
     }
 
     public void add_banknote(int n, int banknote) {

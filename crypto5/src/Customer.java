@@ -1,4 +1,5 @@
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Customer {
@@ -11,30 +12,58 @@ public class Customer {
         this.bank = bank;
     }
 
-    public void spend_banknote(int banknote) throws NoSuchAlgorithmException {
-        int n, r;
+    public boolean spend_banknote(int banknote) throws NoSuchAlgorithmException {
+        int n;
         Random rnd = new Random();
         n = rnd.nextInt(bank.getN() - 3) + 2;
         int[] f_n = bank.getHash(n);
-        int[] _n = new int[f_n.length];
         int[] s = new int[f_n.length];
-        int[] _s = new int[f_n.length];
-        do {
-            r = rnd.nextInt(bank.getN() - 3) + 2;
-        } while (bank.gcd(r, bank.getN()) != 1);
-        int r_inv = (int) bank.ext_gcd(r, bank.getN()) + bank.getN(); //инверсия говно, переделать
-        System.out.println("r inv = " + r_inv);
-        for (int i = 0; i < f_n.length; i++) {
-            _n[i] = (bank.mod_pow(r, bank.getD(), bank.getN()) * (f_n[i] % bank.getN())) % bank.getN();
-            s[i] = bank.mod_pow(_n[i], bank.getC(), bank.getN());
-            _s[i] = (s[i] * r_inv) % bank.getN();
-//            System.out.print(" " + _s[i]);
+
+        for (int i = 0; i < s.length; i++) {
+            s[i] = bank.mod_pow(f_n[i], bank.getC(), bank.getN());
         }
-        System.out.println("f(n) = " + f_n[0] + " calc = " + bank.mod_pow(s[0], bank.getD(), bank.getN()));
 
-        bank.add_banknote(n, banknote);
-        this.setCash(this.getCash() - banknote);
+        if(bank.check_banknote(n, banknote, s)) {
+            bank.add_banknote(n, banknote);
+            this.setCash(this.getCash() - banknote);
+            return true;
+        }
+        else return false;
+    }
 
+    public boolean spend_money(int m) throws NoSuchAlgorithmException {
+        int money = m;
+        if (getCash() - money < 0) {
+            System.out.println("You dont have this amount of money on your bank account\n" +
+                    "Declining operation\n");
+            return false;
+        }
+        int _1000 = money / 1000; money %= 1000;
+        int _100 = money / 100; money %= 100;
+        int _10 = money / 10; money %= 10;
+        int _5 = money / 5; money %= 5;
+        int _1 = money;
+        for (int i = 0; i < _1000; i++) {
+            spend_banknote(1000);
+        }
+
+        for (int i = 0; i < _100; i++) {
+            spend_banknote(100);
+        }
+
+        for (int i = 0; i < _10; i++) {
+            spend_banknote(10);
+        }
+
+        for (int i = 0; i < _5; i++) {
+            spend_banknote(5);
+        }
+
+        for (int i = 0; i < _1; i++) {
+            spend_banknote(1);
+        }
+        System.out.println("You have been successfully spend $" + m);
+        return true;
     }
 
     public int getCash() {
