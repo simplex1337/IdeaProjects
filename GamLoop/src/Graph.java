@@ -2,16 +2,18 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Graph {
 
     private static int currentIndex = -1;
+    private int[][] graph;
+    private ArrayList gam_loop;
 
     public Graph() throws Exception {
-        int[][] graph = parse_graph("src/graph");
-        ArrayList list = parse_loop("src/loop");
+        this.graph = parse_graph("src/graph");
+        this.gam_loop = parse_loop("src/loop");
     }
 
     private int[][] parse_graph(String file) throws Exception {
@@ -33,6 +35,21 @@ public class Graph {
 //            for (j = 0; j < m; ++j)
 //                System.out.print(matrix[i][j] + " ");
         return matrix;
+    }
+
+    public void make_isomorphic(int[][] graph) {
+        int[][] h = new int[graph.length][graph.length];
+        System.out.println(getGam_loop());
+        ArrayList<Integer> loop= new ArrayList<Integer>(); //copy of gam_loop
+        loop = (ArrayList<Integer>) getGam_loop().clone();
+        Collections.shuffle(loop);
+        System.out.println(getGam_loop());
+        System.out.println(loop);
+        //TODO: shuffle(1-8); создать матрицу смежности с сохраненными связями по шафлу; убрать все, что сверху
+
+//        for (int i = 0; i < h.length; ++i, System.out.println())
+//            for (int j = 0; j < h.length; ++j)
+//                System.out.print(h[i][j] + " ");
     }
 
     private static Integer next(String numbers[]) {
@@ -59,5 +76,13 @@ public class Graph {
 //            System.out.print(integers.get(i) + " ");
 //        }
         return integers;
+    }
+
+    public int[][] getGraph() {
+        return graph;
+    }
+
+    public ArrayList getGam_loop() {
+        return gam_loop;
     }
 }
