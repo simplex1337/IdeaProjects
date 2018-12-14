@@ -30,7 +30,7 @@ public class Graph {
         int h[][] = make_isomorphic(getGraph(), iso_num);
         int[][] _h = new int[graph.length][graph.length];
         int[][] f = new int[graph.length][graph.length];
-        //TODO: метод, возвраща гамильтонов цикл в изоморфном графе
+        //TODO: метод, возвращающий гамильтонов цикл в изоморфном графе
         Random rnd = new Random();
         for (int i = 0; i < _h.length; ++i, System.out.println())
             for (int j = 0; j < _h.length; ++j)
