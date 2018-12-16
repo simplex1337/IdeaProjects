@@ -27,16 +27,29 @@ public class Graph {
     }
 
     public int[][] ask_prepare() {
-        ArrayList<Integer> iso_num= new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
-        Collections.shuffle(iso_num);
+//        ArrayList<Integer> iso_num= new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
+        ArrayList<Integer> iso_num= new ArrayList<Integer>(Arrays.asList(6,3,4,2,0,1,7,5));
+//        Collections.shuffle(iso_num);
         int h[][] = make_isomorphic(getGraph(), iso_num);
         ArrayList<Integer> iso_gam_loop = get_iso_gam_loop(iso_num);
+        ArrayList<Integer> iso_gam_loop_value = new ArrayList<Integer>();
+//        System.out.println(iso_gam_loop);
         int[][] _h = new int[graph.length][graph.length];
         int[][] f = new int[graph.length][graph.length];
         Random rnd = new Random();
         for (int i = 0; i < _h.length; ++i)
             for (int j = 0; j < _h.length; ++j)
                 _h[i][j] = conc_ints(rnd.nextInt(10000), h[i][j]);
+
+//        print_g(_h);
+        print_g(graph);
+        System.out.println(gam_loop + "\n" + iso_gam_loop);
+        System.out.println(iso_num);
+        print_g(h);
+        for (int i = 0; i < iso_gam_loop.size() - 1; i++) {
+            iso_gam_loop_value.add(_h[iso_gam_loop.get(i + 1)][iso_gam_loop.get(i)]);
+        }
+        System.out.println(iso_gam_loop_value);
         for (int i = 0; i < _h.length; ++i)
             for (int j = 0; j < _h.length; ++j)
                 f[i][j] = mod_pow(_h[i][j], d, n); //матрица, которую мы передаем бобу
@@ -79,9 +92,7 @@ public class Graph {
 
     public boolean asking(int flg, int[][] f) {
         if (flg == 2) {
-            if(is_isomorphic(graph, iso_g, _iso_num, f))
-                return true;
-            else return false;
+            return is_isomorphic(graph, iso_g, _iso_num, f);
         }
         else if (flg ==1) {
             return true;
@@ -126,6 +137,13 @@ public class Graph {
                     return false;
         return true;
 //        return Arrays.equals(make_isomorphic(graph, iso_num), iso_g);
+    }
+
+    public boolean is_gam_loop(ArrayList<Integer> iso_gam_loop_value, ArrayList<Integer> iso_gam_loop) {
+        for (int i = 0; i < iso_gam_loop_value.size() - 1; i++) {
+            
+        }
+        return true;
     }
 
     private int[][] parse_graph(String file) throws Exception {
