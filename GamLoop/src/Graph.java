@@ -1,3 +1,4 @@
+import javax.lang.model.element.Element;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,8 +10,10 @@ public class Graph {
     private int[][] graph;
     private int[][] iso_g; //iso_g = r[i][j] || h
     private ArrayList<Integer> gam_loop;
+    private ArrayList<Integer> iso_gam_loop;
+    private ArrayList<Integer> iso_gam_loop_value;
     private ArrayList<Integer> _iso_num;
-    private int p, q, n, c, d;
+    private int p, q, n, c, d, size;
 
     public Graph() throws Exception {
         this.graph = parse_graph("src/graph");
@@ -27,7 +30,11 @@ public class Graph {
     }
 
     public int[][] ask_prepare() {
-//        ArrayList<Integer> iso_num= new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
+
+//        ArrayList<Integer> iso_num= new ArrayList<Integer>();
+//        for (int i = 0; i < size; i++) {
+//            iso_num.add(i);
+//        }
         ArrayList<Integer> iso_num= new ArrayList<Integer>(Arrays.asList(6,3,4,2,0,1,7,5));
 //        Collections.shuffle(iso_num);
         int h[][] = make_isomorphic(getGraph(), iso_num);
@@ -42,19 +49,21 @@ public class Graph {
                 _h[i][j] = conc_ints(rnd.nextInt(10000), h[i][j]);
 
 //        print_g(_h);
-        print_g(graph);
-        System.out.println(gam_loop + "\n" + iso_gam_loop);
-        System.out.println(iso_num);
-        print_g(h);
+//        print_g(graph);
+//        System.out.println(gam_loop + "\n" + iso_gam_loop);
+//        System.out.println(iso_num);
+//        print_g(h);
         for (int i = 0; i < iso_gam_loop.size() - 1; i++) {
             iso_gam_loop_value.add(_h[iso_gam_loop.get(i + 1)][iso_gam_loop.get(i)]);
         }
-        System.out.println(iso_gam_loop_value);
+//        System.out.println(iso_gam_loop_value);
         for (int i = 0; i < _h.length; ++i)
             for (int j = 0; j < _h.length; ++j)
                 f[i][j] = mod_pow(_h[i][j], d, n); //матрица, которую мы передаем бобу
         this.iso_g = _h;
         this._iso_num = (ArrayList<Integer>) iso_num.clone();
+        this.iso_gam_loop = (ArrayList<Integer>) iso_gam_loop.clone();
+        this.iso_gam_loop_value = (ArrayList<Integer>) iso_gam_loop_value.clone();
         return f;
     }
 
@@ -95,7 +104,7 @@ public class Graph {
             return is_isomorphic(graph, iso_g, _iso_num, f);
         }
         else if (flg ==1) {
-            return true;
+            return is_gam_loop(iso_gam_loop_value, iso_gam_loop, f);
         }
             else {
                 System.out.println("flag value is incorrect");
@@ -104,9 +113,18 @@ public class Graph {
     }
 
     public ArrayList<Integer> get_iso_gam_loop(ArrayList<Integer> iso_num) {
-        ArrayList<Integer> iso_gam_loop = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
+        ArrayList<Integer> iso_gam_loop = new ArrayList<Integer>();
+        int tmp[] = new int[size];
+        for (int i = 0; i < size; i++) {
+            iso_gam_loop.add(i);
+            tmp[iso_num.get(i)] = i;
+        }
+//        for (int i = 0; i < size; i++) {
+//            System.out.print(" " + tmp[i]);
+//        }
+//        System.out.println();
         for (int i = 0; i < iso_num.size(); i++) {
-            iso_gam_loop.set(gam_loop.indexOf(i), iso_num.get(i));
+            iso_gam_loop.set(i, tmp[gam_loop.get(i)]);
         }
 //        System.out.println(gam_loop);
 //        System.out.println(iso_num);
@@ -139,9 +157,14 @@ public class Graph {
 //        return Arrays.equals(make_isomorphic(graph, iso_num), iso_g);
     }
 
-    public boolean is_gam_loop(ArrayList<Integer> iso_gam_loop_value, ArrayList<Integer> iso_gam_loop) {
+    public boolean is_gam_loop(ArrayList<Integer> iso_gam_loop_value, ArrayList<Integer> iso_gam_loop, int[][] f) {
+//        print_g(f);
         for (int i = 0; i < iso_gam_loop_value.size() - 1; i++) {
-            
+//            System.out.println("iso_gam_loop.get(i) = " + iso_gam_loop.get(i) + " iso_gam_loop.get(i + 1) = "
+//                    + iso_gam_loop.get(i + 1) + " f = " + f[iso_gam_loop.get(i + 1)][iso_gam_loop.get(i)]
+//                    + " mod = " + mod_pow(iso_gam_loop_value.get(i), d, n));
+            if (f[iso_gam_loop.get(i + 1)][iso_gam_loop.get(i)] != mod_pow(iso_gam_loop_value.get(i), d, n))
+                return false;
         }
         return true;
     }
@@ -160,7 +183,7 @@ public class Graph {
         for (i = 0; i < n; ++i)
             for (j = 0; j < m; ++j)
                 matrix[i][j] = next(numbers);
-
+        this.size = n;
         return matrix;
     }
 
